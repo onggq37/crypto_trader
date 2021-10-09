@@ -1,0 +1,144 @@
+body {
+  font-size: 1rem;
+  background: #e5e5e5;
+}
+
+#text h1 {
+  font-size: 4rem;
+  line-height: 1.5em;
+}
+#text p {
+  font-size: 1.4rem;
+  color: #517cc2;
+}
+
+.section-grey {
+  width: 10rem;
+  background-color: #61dafb;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  padding: 0 10rem;
+}
+
+nav img {
+  max-height: 3rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+nav h1 {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+nav a {
+  color: black;
+  display: inline-block;
+  padding: 0.2rem 1rem;
+  font-size: 1em;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  #text h1 {
+    font-size: 2rem;
+  }
+}
+
+nav a:hover {
+  font-weight: bolder;
+}
+
+main {
+  padding-top: 8rem;
+  width: 70%;
+  margin: auto;
+  text-align: left;
+  align-items: center;
+}
+
+.App {
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 10s linear;
+  }
+  .App-logo:hover {
+    animation: logo-spin-fast infinite 2s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(15deg);
+  }
+  50% {
+    transform: rotate(-15deg);
+  }
+  75% {
+    transform: rotate(15deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes logo-spin-fast {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+table {
+  text-align: left;
+  width: 100%;
+}
+
+td,
+th {
+  padding: 8px;
+  border: 1px solid black;
+}
+
+td {
+  border-top: 1px solid black;
+}
+tr:hover {
+  background-color: #e5e5e5;
+}
+
+@media all and (min-width: 480px) {
+  .Login {
+    padding: 60px 0;
+  }
+
+  .Login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}
