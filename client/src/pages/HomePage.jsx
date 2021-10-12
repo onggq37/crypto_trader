@@ -26,7 +26,7 @@ const Home = () => {
         </div>
       </div>
       <img
-        class="App-logo"
+        className="App-logo"
         id="phone"
         src="images/phone_light.png"
         alt=" "

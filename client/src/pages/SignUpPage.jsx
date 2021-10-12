@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
-const LoginPage = () => {
+const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -21,13 +21,14 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push("/"); //return to home after loggging in
+    alert(`Welcome ${username}, You are signed up!`);
+    history.push("/login"); //go to login page after signing up
   };
 
   return (
     <div className="Login">
       <img src="./images/sm_logo_light.png" height="80px" alt="logo" /> <br />
-      <h2>Welcome Back</h2> <br />
+      <h2>Create Account</h2> <br />
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="username">
           <Form.Control
@@ -53,18 +54,15 @@ const LoginPage = () => {
           type="submit"
           disabled={!validateForm()}
         >
-          Login
+          Sign Up
         </Button>{" "}
-        <p onClick={() => history.push("/forgot-password")}>
-          Forgot your password?
-        </p>
         <hr />
-        <Button variant="info" onClick={() => history.push("/signup")}>
-          No account? Sign Up Here
+        <Button variant="info" onClick={() => history.push("/login")}>
+          Already have an account? Log In
         </Button>
       </Form>
     </div>
   );
 };
 
-export default LoginPage;
+export default SignUpPage;

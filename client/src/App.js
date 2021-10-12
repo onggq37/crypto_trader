@@ -5,6 +5,7 @@ import NavBar from "./components/Navbar";
 import ProductPage from "./pages/ProductPage";
 import PricePage from "./pages/PricePage";
 import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 import WalletPage from "./pages/WalletPage";
 import AcademyPage from "./pages/AcademyPage";
 import "./App.css";
@@ -32,6 +33,9 @@ const App = () => {
           </Route>
           <Route path="/login">
             <LoginPage />
+          </Route>
+          <Route path="/signup">
+            <SignUpPage />
           </Route>
         </Switch>
       </main>
