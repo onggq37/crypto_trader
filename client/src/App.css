@@ -135,6 +135,14 @@ tr:hover {
 @media all and (min-width: 480px) {
   .Login {
     padding: 60px 0;
+    text-align: center;
+  }
+  p {
+    padding-top: 1rem;
+    cursor: pointer;
+  }
+  p:hover {
+    font-weight: 500;
   }
 
   .Login form {
