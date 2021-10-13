@@ -12,7 +12,6 @@ const Navbar = () => {
         </Link>
         <Link to="/products">Products</Link>
         <Link to="/prices">Crypto Prices</Link>
-        <Link to="/wallet">Wallet</Link>
         <Link to="/academy">Academy</Link>
         <form className="form-inline">
           <input className="form-control" type="search" placeholder="Search" />

@@ -22,38 +22,43 @@ const Price = () => {
 
   return (
     <>
-      <h1>CryptoCurrency Prices</h1>
-      <table>
-        <tr>
-          <th>Crypto Name</th>
-          <th>Price</th>
-          <th>Change</th>
-          <th>24h %</th>
-          <th>Market Cap</th>
-          <th>Circulation Supply</th>
-        </tr>
-
-        {popularStock.map((stock, index) => (
-          <tr key={index}>
-            <td>
-              {" "}
-              {stock.ticker} (
-              <Link to={"/stock/" + stock.ticker}>{stock.companyName}</Link>)
-            </td>{" "}
-            <td>{stock.price}</td>
-            <td
-              style={stock.changes > 0 ? { color: "green" } : { color: "red" }}
-            >
-              <strong>
-                {stock.changes} ({stock.changesPercentage}%)
-              </strong>
-            </td>
-            <td>{stock.price}</td>
-            <td>{stock.price}</td>
-            <td>{stock.price}</td>
+      <div className="pricePage">
+        <h1>CryptoCurrency Prices</h1>
+        <br />
+        <table>
+          <tr>
+            <th>Crypto Name</th>
+            <th>Price</th>
+            <th>Change</th>
+            <th>24h %</th>
+            <th>Market Cap</th>
+            <th>Circulation Supply</th>
           </tr>
-        ))}
-      </table>
+
+          {popularStock.map((stock, index) => (
+            <tr key={index}>
+              <td>
+                {" "}
+                {stock.ticker} (
+                <Link to={"/stock/" + stock.ticker}>{stock.companyName}</Link>)
+              </td>{" "}
+              <td>{stock.price}</td>
+              <td
+                style={
+                  stock.changes > 0 ? { color: "green" } : { color: "red" }
+                }
+              >
+                <strong>
+                  {stock.changes} ({stock.changesPercentage}%)
+                </strong>
+              </td>
+              <td>{stock.price}</td>
+              <td>{stock.price}</td>
+              <td>{stock.price}</td>
+            </tr>
+          ))}
+        </table>
+      </div>
     </>
   );
 };

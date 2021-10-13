@@ -21,7 +21,7 @@ const LoginPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    history.push("/"); //return to home after loggging in
+    history.push("/wallet");
   };
 
   return (
@@ -32,7 +32,7 @@ const LoginPage = () => {
         <Form.Group size="lg" controlId="username">
           <Form.Control
             type="text"
-            placeholder="Username"
+            placeholder="Username or Email"
             value={username}
             onChange={handleUsername}
           />
@@ -47,6 +47,7 @@ const LoginPage = () => {
           />
         </Form.Group>
         <br />
+        {/* to change the route to 'api/user/wallet */}
         <Button
           variant="secondary"
           size="md"
@@ -55,9 +56,9 @@ const LoginPage = () => {
         >
           Login
         </Button>{" "}
-        <p onClick={() => history.push("/forgot-password")}>
+        <h6 onClick={() => history.push("/forgot-password")}>
           Forgot your password?
-        </p>
+        </h6>
         <hr />
         <Button variant="info" onClick={() => history.push("/signup")}>
           No account? Sign Up Here
