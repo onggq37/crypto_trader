@@ -35,6 +35,19 @@
   color: white;
 }
 
+.section-white-logo {
+  width: 100%;
+  height: 20rem;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+.section-white-logo.dark {
+  background-color: #8b8b8b;
+  color: white;
+}
+
 .banner {
   background-color: grey;
   padding-top: 20px;
@@ -218,7 +231,8 @@ tr:hover {
 }
 
 .Login,
-.Signup {
+.Signup,
+.walletPage {
   padding: 130px 0;
   text-align: center;
 }
@@ -230,7 +244,8 @@ tr:hover {
 
 .Login.dark,
 .Signup.dark,
-.pricePage.dark {
+.pricePage.dark,
+.walletPage.dark {
   background-color: #242424;
   color: white;
 }

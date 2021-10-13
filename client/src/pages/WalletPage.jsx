@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Container, Col, Row, Card, Tabs, Tab } from "react-bootstrap";
 import PricePage from "./PricePage";
-let newDate = new Date();
-console.log(newDate);
+import ThemeContext from "../ThemeContext";
 
 const WalletPage = () => {
   const [key, setKey] = useState("balances");
+  const { theme } = useContext(ThemeContext);
 
   return (
-    <div>
+    <div className={`walletPage ${theme}`}>
       <h1>Your Wallet</h1>
       <p> Notional values as of {new Date().toLocaleString()}</p>
       <Container>
