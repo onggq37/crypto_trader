@@ -6,8 +6,8 @@ import ProductPage from "./pages/ProductPage";
 import PricePage from "./pages/PricePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import WalletPage from "./pages/WalletPage";
 import AcademyPage from "./pages/AcademyPage";
+import WalletPage from "./pages/WalletPage";
 import "./App.css";
 
 const App = () => {
@@ -25,9 +25,6 @@ const App = () => {
           <Route path="/prices">
             <PricePage />
           </Route>
-          <Route path="/wallet">
-            <WalletPage />
-          </Route>
           <Route path="/academy">
             <AcademyPage />
           </Route>
@@ -36,6 +33,10 @@ const App = () => {
           </Route>
           <Route path="/signup">
             <SignUpPage />
+          </Route>
+          {/* wallet Route only for after user login */}
+          <Route path="/wallet">
+            <WalletPage />
           </Route>
         </Switch>
       </main>
