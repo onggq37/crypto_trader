@@ -73,7 +73,7 @@ const Home = () => {
           </Row>
         </Container>
       </div>
-      <div className={`section-white ${theme}`}>
+      <div className={`section-white-logo ${theme}`}>
         <img id="logo" src="images/crypto.png" alt="logo" height="50px" />
         <img id="logo" src="images/gemini.png" alt="logo" height="40px" />
         <img id="logo" src="images/binance.png" alt="logo" height="45px" />
