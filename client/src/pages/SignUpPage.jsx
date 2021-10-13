@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import ThemeContext from "../ThemeContext";
 
 const SignUpPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
   const handleUsername = (e) => {
@@ -32,7 +34,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="Login">
+    <div className={`Signup ${theme}`}>
       <img src="./images/sm_logo_light.png" height="80px" alt="logo" /> <br />
       <h2>Create Account</h2> <br />
       <Form onSubmit={handleSubmit}>

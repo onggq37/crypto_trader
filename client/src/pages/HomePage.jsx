@@ -1,21 +1,13 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useContext } from "react";
 import { Button, Card, Col, Row, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ThemeContext from "../ThemeContext";
 
-const AppLayout = styled.div`
-  display: grid;
-  grid-template-columns: 65% 35%;
-  grid-template-rows: auto;
-  @media (max-width: 768px) {
-    grid-template-columns: 100%;
-    grid-gap: 5%;
-  }
-`;
 const Home = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <>
-      <AppLayout>
+      <div className={`mainGrid ${theme}`}>
         <div className="mainPage">
           <img src="images/flag.png" alt="logo" height="100px" />
           <div id="text">
@@ -35,12 +27,12 @@ const Home = () => {
           alt=" "
           height="600px"
         />
-      </AppLayout>
-      <div className="section-blue">
+      </div>
+      <div className={`section-blue ${theme}`}>
         <Container>
           <Row xs={1} md={3} className="g-5">
             <Col>
-              <Card>
+              <Card className={`section-white ${theme}`}>
                 <Card.Img id="icon" img src="images/earn.png" />
                 <Card.Body>
                   <Card.Title>Grow Your Wealth</Card.Title>
@@ -53,7 +45,7 @@ const Home = () => {
               </Card>
             </Col>
             <Col>
-              <Card>
+              <Card className={`section-white ${theme}`}>
                 <Card.Img id="icon" src="images/trust.png" />
                 <Card.Body>
                   <Card.Title>Trust is our Priority</Card.Title>
@@ -66,7 +58,7 @@ const Home = () => {
               </Card>
             </Col>
             <Col>
-              <Card>
+              <Card className={`section-white ${theme}`}>
                 <Card.Img id="icon" src="images/exchange.png" />
                 <Card.Body>
                   <Card.Title>Seamless Fiat-to-Crypto Exchange</Card.Title>
@@ -81,17 +73,17 @@ const Home = () => {
           </Row>
         </Container>
       </div>
-      <div className="section-white">
+      <div className={`section-white ${theme}`}>
         <img id="logo" src="images/crypto.png" alt="logo" height="50px" />
         <img id="logo" src="images/gemini.png" alt="logo" height="40px" />
         <img id="logo" src="images/binance.png" alt="logo" height="45px" />
         <img id="logo" src="images/kucoin.png" alt="logo" height="40px" />
         <img id="logo" src="images/metamask.png" alt="logo" height="50px" />
       </div>
-      <div className="section-blue" id="text">
+      <div className={`section-blue ${theme}`} id="text">
         <h1>The most trusted crypto platform in Singapore</h1>
       </div>
-      <div className="section-white">
+      <div className={`section-white ${theme}`}>
         <Button size="lg" variant="info">
           <Link style={{ "text-decoration": "none" }} to="/signup">
             Sign Up Now

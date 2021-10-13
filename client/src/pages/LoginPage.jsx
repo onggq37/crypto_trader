@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
+import CenteredModals from "../components/CenteredModals";
+import ThemeContext from "../ThemeContext";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
   const handleUsername = (e) => {
@@ -19,13 +23,15 @@ const LoginPage = () => {
     return username.length > 0 && password.length > 0;
   };
 
+  // To modify handleSubmit with JWT authentication
   const handleSubmit = (e) => {
+    setShowModal(true);
     e.preventDefault();
-    history.push("/wallet");
+    setTimeout(() => history.push("/wallet"), 3000);
   };
 
   return (
-    <div className="Login">
+    <div className={`Login ${theme}`}>
       <img src="./images/sm_logo_light.png" height="80px" alt="logo" /> <br />
       <h2>Welcome Back</h2> <br />
       <Form onSubmit={handleSubmit}>
@@ -55,7 +61,8 @@ const LoginPage = () => {
           disabled={!validateForm()}
         >
           Login
-        </Button>{" "}
+        </Button>
+        <CenteredModals show={showModal} onHide={() => setShowModal(false)} />
         <h6 onClick={() => history.push("/forgot-password")}>
           Forgot your password?
         </h6>
