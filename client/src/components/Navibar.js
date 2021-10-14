@@ -1,24 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button, Navbar } from "react-bootstrap";
 import ThemeChangerButton from "./ThemeChangerButton";
+import ThemeContext from "../ThemeContext";
 
 const Navibar = () => {
+  const { theme } = useContext(ThemeContext);
   return (
     <div>
       <Navbar
         collapseOnSelect
         expand="lg"
-        className="navbar fixed-top navbar-light bg-light"
+        className={`navbar fixed-top navbar-${theme} bg-${theme}`}
       >
         <Link to="/">
-          <img className="mainLogo" src="./images/logo_light.png" alt="logo" />
+          <img
+            className="mainLogo"
+            src={`./images/logo_${theme}.png`}
+            alt="logo"
+          />
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link to="/products">Products</Link>
-          <Link to="/prices">Crypto Prices</Link>
-          <Link to="/academy">Academy</Link>
+          <Link className={`${theme}`} to="/products">
+            Products
+          </Link>
+          <Link className={`${theme}`} to="/prices">
+            Crypto Prices
+          </Link>
+          <Link className={`${theme}`} to="/academy">
+            Academy
+          </Link>
           <form className="form-inline">
             <input
               className="form-control"
@@ -27,10 +39,14 @@ const Navibar = () => {
             />
           </form>
           <Button variant="secondary" id="responsive-navbar-nav">
-            <Link to="/login">Log In</Link>
+            <Link className={`${theme}`} to="/login">
+              Log In
+            </Link>
           </Button>
           <Button variant="secondary" id="responsive-navbar-nav">
-            <Link to="/signup">Sign Up</Link>
+            <Link className={`${theme}`} to="/signup">
+              Sign Up
+            </Link>
           </Button>
           <ThemeChangerButton />
         </Navbar.Collapse>
