@@ -80,7 +80,15 @@ nav h1 {
   vertical-align: middle;
 }
 
-nav a {
+nav a.dark {
+  color: white;
+  display: inline-block;
+  padding: 0.1rem 1.5rem;
+  font-size: 1em;
+  text-decoration: none;
+}
+
+nav a.light {
   color: black;
   display: inline-block;
   padding: 0.1rem 1.5rem;
@@ -218,7 +226,7 @@ tr:hover {
 
 .ThemeChangerButton.dark {
   background-color: #242424;
-  border: solid #242424;
+  border: solid white;
   border-radius: 5px;
   color: white;
 }

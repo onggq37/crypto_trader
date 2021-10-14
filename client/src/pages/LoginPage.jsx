@@ -32,7 +32,8 @@ const LoginPage = () => {
 
   return (
     <div className={`Login ${theme}`}>
-      <img src="./images/sm_logo_light.png" height="80px" alt="logo" /> <br />
+      <img src={`./images/sm_logo_${theme}.png`} height="80px" alt="logo" />{" "}
+      <br />
       <h2>Welcome Back</h2> <br />
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="username">
