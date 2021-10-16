@@ -11,7 +11,7 @@ import WalletPage from "./pages/WalletPage";
 import ThemeContext from "./ThemeContext";
 
 const App = () => {
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
