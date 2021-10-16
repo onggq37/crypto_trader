@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/onggq37/crypto_trader#readme",
   "dependencies": {
+    "axios": "^0.23.0",
     "bcryptjs": "^2.4.3",
+    "coingecko-api": "^1.0.10",
     "config": "^3.3.6",
     "express": "^4.17.1",
     "express-validator": "^6.12.2",
