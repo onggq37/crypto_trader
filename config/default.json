@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://Admin123:R446XIkjIoJEfUCr@cryptowallet.6o4ir.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "GeneralAssemblyProject3Token"
+}
