@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Container, Col, Row, Card, Tabs, Tab } from "react-bootstrap";
 import PricePage from "./PricePage";
+import BalancePage from "./BalancePage";
+import TransactionPage from "./TransactionPage";
+import TransferPage from "./TransferPage";
 import ThemeContext from "../ThemeContext";
 
 const WalletPage = () => {
@@ -25,13 +28,13 @@ const WalletPage = () => {
                   className="mb-3"
                 >
                   <Tab eventKey="balances" title="Balances">
-                    <PricePage />
+                    <BalancePage />
                   </Tab>
                   <Tab eventKey="transaction" title="Transaction History">
-                    <PricePage />
+                    <TransactionPage />
                   </Tab>
                   <Tab eventKey="transfer" title="Transfer History">
-                    <PricePage />
+                    <TransferPage />
                   </Tab>
                 </Tabs>
               </Card.Body>
