@@ -33,8 +33,17 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-    
+  try {
+    const coinProperties = {};
+    // const coin1dData = await CoinGeckoClient.coins.fetchMarketChart(`${req.params.id}`, { vs_currency: 'usd', days: 1 });
+    // console.log(coin1dData);
+    const coinPrice = await CoinGeckoClient.coins.fetch(id=`${req.params.id}`, {localization: 'false'});
+    console.log(coinPrice.data.prices);
     res.send("Show Price");
+  } catch (e) {
+      console.error(e.message);
+      res.status(500).send("Server error");
+  }
 });
 
 module.exports = router;

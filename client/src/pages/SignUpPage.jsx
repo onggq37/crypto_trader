@@ -4,14 +4,19 @@ import { useHistory } from "react-router-dom";
 import ThemeContext from "../ThemeContext";
 
 const SignUpPage = () => {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
-  const handleUsername = (e) => {
-    setUsername(e.target.value);
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePassword = (e) => {
@@ -23,14 +28,37 @@ const SignUpPage = () => {
   };
 
   const validateForm = () => {
-    return username.length > 0 && password.length > 0;
+    return name.length > 0 && password.length > 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Welcome ${username}, You are signed up!`);
+    // alert(`Welcome ${name}, You are signed up!`);
     // Add axios here
-    history.push("/login"); //go to login page after signing up
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        password: password,
+      })
+      
+    })
+
+    const result = await response.json();
+    console.log(result);
+    //To do: loop through the error and display it
+    if (result.errors) {
+      return alert(`${result.errors[0].msg}`);
+    }
+
+    if (result.token) {
+      localStorage.setItem('token', result.token);
+    }
+    history.push("/"); //go to login page after signing up
   };
 
   return (
@@ -39,21 +67,21 @@ const SignUpPage = () => {
       <br />
       <h2>Create Account</h2> <br />
       <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="username">
+        <Form.Group size="lg" controlId="name">
           <Form.Control
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={handleUsername}
+            placeholder="Name"
+            value={name}
+            onChange={handleName}
           />
         </Form.Group>
         <br />
-        <Form.Group size="lg" controlId="username">
+        <Form.Group size="lg" controlId="email">
           <Form.Control
             type="text"
             placeholder="Email"
-            value={username}
-            onChange={handleUsername}
+            value={email}
+            onChange={handleEmail}
           />
           <br />
         </Form.Group>
