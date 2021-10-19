@@ -7,6 +7,9 @@ const User = require("../../models/User");
 const TransferHistory = require("../../models/TransferHistory");
 const TransactionHistory = require("../../models/TransactionHistory");
 const RealisedPNL = require("../../models/RealisedPNL");
+const numeral = require('numeral');
+
+const auth = require("../../middleware/auth");
 
 async function getCoinPrice(coinName) { // coins that can be searched on: bitcoin, ethereum, litecoin, tether, monero, binance coin, cardano, ripple, solana, dogecoin
     const objReturned = {}
@@ -14,6 +17,7 @@ async function getCoinPrice(coinName) { // coins that can be searched on: bitcoi
     coinName = coinName.replace(" ", "")
     // console.log(coinName)
     const fetchOneCoin = await CoinGeckoClient.coins.fetch(coinName)
+    // console.log(fetchOneCoin)
     if (fetchOneCoin.success) {
         const fetchCoinPrice = fetchOneCoin.data.market_data.current_price.usd
         const fetchCoinSymbol = fetchOneCoin.data.symbol.toUpperCase()
@@ -27,6 +31,16 @@ async function getCoinPrice(coinName) { // coins that can be searched on: bitcoi
     return objReturned
 }
 
+function roundNum(number, dp = 2) {
+    return Math.round(number*(10**dp))/(10**dp)
+}
+
+function numeralFunc(number) {
+    return numeral(number).format("0,0.00")
+}
+
+
+
 // //////////////////////////////////
 // //////////// GET ////////////////
 // //////////////////////////////////
@@ -34,7 +48,7 @@ async function getCoinPrice(coinName) { // coins that can be searched on: bitcoi
 
 // Get all crypto data. Use list() method to get list of crypto
 
-router.get("/", async (req, res) => {
+router.get("/getAllCryptoData", async (req, res) => {
     try {
         const allCoinsApi = await CoinGeckoClient.coins.all();
         // console.log(allCoinsApi);
@@ -110,6 +124,43 @@ router.get("/fetchMultipleCoins", async (req, res) => {
     }
 });
 
+// auth middleware, applies to all routes below
+
+router.use(auth)
+
+// show wallet main page
+
+router.get("/", async (req, res) => {
+    let data = await User.findById(req.user.id).select("-password");
+    data = data.ownedAssetsQtyAndCostBase
+    const summary = {}
+
+    // e.g. <coinCurrencyPair> <qty> <cost> <fair value> <P/L> <P/L %>
+    // e.g. BTCUSD 30 1000 1500 500 0.5
+
+    for (const key in data) {
+        summary['usd'] = {coinSymbol: "USD", currentCoinsOwned: "-", costBase: numeralFunc(data.usd), currentCoinPrice: "-", profitAndLoss: "-", percentage: "-"}
+        if (key !== 'usd') {
+            const coinInfo = await getCoinPrice(key)
+
+            const coinSymbol = coinInfo.result[0] + "USD"
+            const currentCoinsOwned = data[key][0]
+            const costBase = data[key][1]
+            const currentCoinPrice = coinInfo.result[1] * currentCoinsOwned
+            const profitAndLoss = currentCoinPrice - costBase
+
+            summary[key] = {coinSymbol,
+                currentCoinsOwned: String(roundNum(currentCoinsOwned,4)),
+                costBase: numeralFunc(costBase), 
+                currentCoinPrice: numeralFunc(currentCoinPrice), 
+                profitAndLoss: numeralFunc(profitAndLoss), 
+                percentage: String(roundNum(profitAndLoss/costBase*100, 4))
+            }
+        }
+    }
+    res.json(summary)
+
+})
 
 // //////////////////////////////////
 // //////////// POST ////////////////
@@ -119,18 +170,18 @@ router.get("/fetchMultipleCoins", async (req, res) => {
 
 router.post("/topup", async (req, res) => {
     try {
-        const {email, amount} = req.body
-        let data = await User.findOne({email: email})
-        data = data.ownedAssetsQtyAndCostBase
+        const {amount} = req.body
+        const mainData = await User.findById(req.user.id).select("-password");
+        const data = mainData.ownedAssetsQtyAndCostBase
         data.usd = Number(data.usd) + Number(amount)
         await User.updateOne({
-            email: email
+            email: mainData.email
         }, {
             $set: {
                 ownedAssetsQtyAndCostBase: data
             }
         })
-        await TransferHistory.create({email: email, transType: "deposit", amount: amount})
+        await TransferHistory.create({email: mainData.email, transType: "deposit", amount: amount})
         res.send("ok")
     } catch (e) {
         console.error(e.message);
@@ -143,19 +194,19 @@ router.post("/topup", async (req, res) => {
 
 router.post("/withdraw", async (req, res) => {
     try {
-        const {email, amount} = req.body
-        let data = await User.findOne({email: email})
-        data = data.ownedAssetsQtyAndCostBase
+        const { amount} = req.body
+        const mainData = await User.findById(req.user.id).select("-password");
+        const data = mainData.ownedAssetsQtyAndCostBase
         if (data.usd >= amount) {
             data.usd = Number(data.usd) - Number(amount)
             await User.updateOne({
-                email: email
+                email: mainData.email
             }, {
                 $set: {
                     ownedAssetsQtyAndCostBase: data
                 }
             })
-            await TransferHistory.create({email: email, transType: "withdraw", amount: amount})
+            await TransferHistory.create({email: mainData.email, transType: "withdraw", amount: amount})
             res.send(`amount withdrawn = ${amount}. Balance = ${
                 data.usd
             }`)
@@ -174,18 +225,16 @@ router.post("/withdraw", async (req, res) => {
 
 // buy router
 
-router.post("/buy", async (req, res) => {
+router.post("/buy", auth, async (req, res) => {
     try { // obtain user assets (i.e. entire portfolio) prior to purchase
-
-        const {email, coin, quantity} = req.body
-        const userData = await User.findOne({email: email})
+        const { coin, quantity} = req.body
+        const userData = await User.findById(req.user.id).select("-password");
         const userAssets = userData.ownedAssetsQtyAndCostBase
 
         // obtain stock price and determine total cost of purchasing the desired coin
 
         const objReturned = await getCoinPrice(coin)
         if (objReturned.result) {
-
             const coinSymbol = objReturned.result[0]
             const coinPrice = objReturned.result[1]
             const totalPrice = coinPrice * quantity
@@ -216,7 +265,7 @@ router.post("/buy", async (req, res) => {
             }
 
             await User.updateOne({
-                email: email
+                email: userData.email
             }, {
                 $set: {
                     ownedAssetsQtyAndCostBase: userAssets
@@ -229,7 +278,7 @@ router.post("/buy", async (req, res) => {
 
             await TransactionHistory.create({
                 transId: transactionIdCount,
-                email: email,
+                email: userData.email,
                 coinCurrencyPair: coinSymbol + "USD",
                 transType: "Buy",
                 individualAmount: coinPrice,
@@ -241,6 +290,7 @@ router.post("/buy", async (req, res) => {
             return
         }
         res.send("ok")
+        return
     } catch (e) {
         console.error(e.message);
     }
@@ -249,11 +299,10 @@ router.post("/buy", async (req, res) => {
 
 // sell router
 
-router.post("/sell", async (req, res) => {
+router.post("/sell", auth, async (req, res) => {
     try { // obtain user assets (i.e. entire portfolio) prior to purchase
-
-        const {email, coin, quantity} = req.body
-        const userData = await User.findOne({email: email})
+        const { coin, quantity} = req.body
+        const userData = await User.findById(req.user.id).select("-password");
         const userAssets = userData.ownedAssetsQtyAndCostBase
         let profitAndLoss = 0
         let costBaseReduction = 0
@@ -306,7 +355,7 @@ router.post("/sell", async (req, res) => {
             const transactionIdCount = await TransactionHistory.countDocuments()
 
             const commonEntry = {
-              email: email,
+              email: userData.email,
               coinCurrencyPair: coinSymbol + "USD",
               individualAmount: coinPrice,
               quantity: quantity,
@@ -340,6 +389,7 @@ router.post("/sell", async (req, res) => {
         }
     } catch (e) {
         console.error(e.message);
+        return
     }
 })
 

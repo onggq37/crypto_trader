@@ -22,8 +22,8 @@ const Navibar = () => {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link className={`${theme}`} to="/products">
-            Products
+          <Link className={`${theme}`} to="/wallet">
+            Wallet
           </Link>
           <Link className={`${theme}`} to="/prices">
             Crypto Prices
