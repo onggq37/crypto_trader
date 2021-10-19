@@ -5,14 +5,14 @@ import CenteredModals from "../components/CenteredModals";
 import ThemeContext from "../ThemeContext";
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
   const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
-  const handleUsername = (e) => {
-    setUsername(e.target.value);
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePassword = (e) => {
@@ -20,14 +20,35 @@ const LoginPage = () => {
   };
 
   const validateForm = () => {
-    return username.length > 0 && password.length > 0;
+    return email.length > 0 && password.length > 0;
   };
 
   // To modify handleSubmit with JWT authentication
-  const handleSubmit = (e) => {
-    setShowModal(true);
+  const handleSubmit = async (e) => {
+    // setShowModal(true);
     e.preventDefault();
-    setTimeout(() => history.push("/wallet"), 3000);
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      })
+    })
+
+    const result = await response.json();
+    console.log(result);
+    //To do: loop through the error and display it
+    if (result.errors) {
+      return alert(`${result.errors[0].msg}`);
+    }
+
+    if (result.token) {
+      localStorage.setItem('token', result.token);
+    }
+    history.push("/");
   };
 
   return (
@@ -36,12 +57,12 @@ const LoginPage = () => {
       <br />
       <h2>Welcome Back</h2> <br />
       <Form onSubmit={handleSubmit}>
-        <Form.Group size="lg" controlId="username">
+        <Form.Group size="lg" controlId="email">
           <Form.Control
             type="text"
-            placeholder="Username or Email"
-            value={username}
-            onChange={handleUsername}
+            placeholder="Email"
+            value={email}
+            onChange={handleEmail}
           />
         </Form.Group>
         <br />
