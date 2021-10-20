@@ -3,23 +3,25 @@ import { Link } from "react-router-dom";
 import ThemeContext from "../ThemeContext";
 
 const Price = () => {
-  const [popularStock, setPopularStock] = useState([]);
+  const [popularCoin, setPopularCoin] = useState([]);
   const { theme } = useContext(ThemeContext);
   useEffect(() => {
-    // const stocksURL = `https://financialmodelingprep.com/api/v3/stock/actives?apikey=`;
-    const stocksURL = `https://financialmodelingprep.com/api/v3/stock/actives?apikey=01dc0027bd7c9d74f761d14c060c736f`;
-    const getPopularStocks = async () => {
-      // const res = await fetch(`${stocksURL}${process.env.REACT_APP_API_KEY}`);
-      const res = await fetch(`${stocksURL}`);
-      console.log(process.env.REACT_APP_API_KEY);
-      console.log(res);
+    const getPopularCoins = async () => {
+      const res = await fetch("/api/prices", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
       if (res.ok) {
         const payload = await res.json();
-        console.log(payload.mostActiveStock);
-        setPopularStock(payload.mostActiveStock);
+        setPopularCoin(payload);
+      } else {
+        console.error("Server Error");
       }
     };
-    getPopularStocks();
+    getPopularCoins();
   }, []);
 
   return (
@@ -34,29 +36,33 @@ const Price = () => {
             <th>Change</th>
             <th>24h %</th>
             <th>Market Cap</th>
-            <th>Circulation Supply</th>
           </tr>
 
-          {popularStock.map((stock, index) => (
+          {popularCoin.map((coin, index) => (
             <tr key={index}>
               <td>
                 {" "}
-                {stock.ticker} (
-                <Link to={"/stock/" + stock.ticker}>{stock.companyName}</Link>)
+                <img src={coin.image} alt={coin.name} />
+                <Link to={"/stock/" + coin.symbol}>{coin.name}</Link>
               </td>{" "}
-              <td>{stock.price}</td>
+              <td>${coin.price}</td>
               <td
                 style={
-                  stock.changes > 0 ? { color: "green" } : { color: "red" }
+                  coin.priceChange24Hr > 0
+                    ? { color: "green" }
+                    : { color: "red" }
                 }
               >
                 <strong>
-                  {stock.changes} ({stock.changesPercentage}%)
+                  ${coin.priceChange24Hr.toFixed(2)} 
                 </strong>
               </td>
-              <td>{stock.price}</td>
-              <td>{stock.price}</td>
-              <td>{stock.price}</td>
+              <td style={
+                  coin.percentPriceChange24Hr > 0
+                    ? { color: "green" }
+                    : { color: "red" }
+                }>{coin.percentPriceChange24Hr.toFixed(2)}%</td>
+              <td>{coin.marketCap}</td>
             </tr>
           ))}
         </table>

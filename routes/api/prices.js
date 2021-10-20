@@ -8,14 +8,14 @@ router.get("/", async (req, res) => {
   //Get list of crypto data
   try {
     const allCoinsApi = await CoinGeckoClient.coins.all();
-    // console.log(allCoinsApi);
+    //console.log(allCoinsApi);
     const listOfCoins = [];
-    // console.log(allCoinsApi.data[0].market_data);
+    // console.log(allCoinsApi.data[0].image);
     for (const obj of allCoinsApi.data) {
       const coinData = {
         symbol: obj.symbol,
         name: obj.name,
-        image: obj.image.small,
+        image: obj.image.thumb,
         price: obj.market_data.current_price.usd,
         priceChange24Hr: obj.market_data.price_change_24h,
         percentPriceChange24Hr: obj.market_data.price_change_percentage_24h,
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
       listOfCoins.push(coinData);
     }
     //For now just send list
-    res.send(listOfCoins);
+    res.json(listOfCoins);
   } catch (e) {
     console.error(e.message);
     res.status(500).send("Server error");
