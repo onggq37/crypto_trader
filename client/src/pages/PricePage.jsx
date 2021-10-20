@@ -41,31 +41,35 @@ const Price = () => {
               <th>Market Cap</th>
             </tr>
           </thead>
+
           {popularCoin.map((coin, index) => (
-            <tr key={index}>
-              <td>
-                {" "}
-                <img src={coin.image} alt={coin.name} />{" "}
-                <Link to={"/stock/" + coin.symbol}>{coin.name}</Link>
-              </td>{" "}
-              <td>${coin.price}</td>
-              <td
-                style={
-                  coin.priceChange24Hr > 0
-                    ? { color: "green" }
-                    : { color: "red" }
-                }
-              >
-                <strong>
-                  ${coin.priceChange24Hr.toFixed(2)} 
-                </strong>
-              </td>
-              <td style={
-                  coin.percentPriceChange24Hr > 0
-                    ? { color: "green" }
-                    : { color: "red" }
-                }>{coin.percentPriceChange24Hr.toFixed(2)}%</td>
-              <td>{coin.marketCap}</td>
+            <tbody>
+              <tr key={index}>
+                <td>
+                  {" "}
+                  <img src={coin.image} alt={coin.name} />{" "}
+                  <Link to={"/stock/" + coin.symbol}>{coin.name}</Link>
+                </td>{" "}
+                <td>${coin.price}</td>
+                <td
+                  style={
+                    coin.priceChange24Hr > 0
+                      ? { color: "green" }
+                      : { color: "red" }
+                  }
+                >
+                  <strong>${coin.priceChange24Hr.toFixed(2)}</strong>
+                </td>
+                <td
+                  style={
+                    coin.percentPriceChange24Hr > 0
+                      ? { color: "green" }
+                      : { color: "red" }
+                  }
+                >
+                  {coin.percentPriceChange24Hr.toFixed(2)}%
+                </td>
+                <td>{coin.marketCap}</td>
               </tr>
             </tbody>
           ))}
