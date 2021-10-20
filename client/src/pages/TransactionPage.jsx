@@ -1,19 +1,23 @@
 import React, { useContext } from "react";
+import { Container, Col, Row, Card } from "react-bootstrap";
 import ThemeContext from "../ThemeContext";
 
-const AcademyPage = () => {
+const TransferHistory = () => {
   const { theme } = useContext(ThemeContext);
   return (
-    <div className={`Login ${theme}`}>
-      <h1>Transaction History</h1>
-      <img
-        id="logo"
-        src="images/under-construction.png"
-        alt="logo"
-        height="300px"
-      />
-    </div>
+    <Container>
+      <Row xs={1} md={1}>
+        <Col>
+          <Card className={`walletCard ${theme}`}>
+            <Card.Img id="icon" />
+            <Card.Body>
+              <h1>Transaction History</h1>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
-export default AcademyPage;
+export default TransferHistory;

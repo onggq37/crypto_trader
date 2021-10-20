@@ -12,7 +12,6 @@ const BalancePage = () => {
         <Row xs={1} md={1}>
           <Col>
             <Card className={`walletCard ${theme}`}>
-              <Card.Img id="icon" />
               <Card.Body>
                 <h1>Account Balances</h1>
                 <h3>Display User's cryto holdings here</h3>

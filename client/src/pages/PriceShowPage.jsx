@@ -11,8 +11,10 @@ const PriceShowPage = (props) => {
   const [priceChange, setPriceChange] = useState();
   const { theme } = useContext(ThemeContext);
   const param = useParams();
+  const targetSymbol = param.symbol;
+  console.log(targetSymbol);
 
-  // COMPONENTDIDMOUNT..runs only once when Component mounts
+  // To replace with CoinGecko API
   useEffect(() => {
     const targetSymbol = param.symbol;
     const cryptosURL = `https://financialmodelingprep.com/api/v3/profile/${targetSymbol}?apikey=`;

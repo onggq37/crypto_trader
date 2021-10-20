@@ -5,11 +5,11 @@ import ThemeContext from "../ThemeContext";
 const Price = () => {
   const [popularCrypto, setPopularCrypto] = useState([]);
   const { theme } = useContext(ThemeContext);
+
+  // To replace with CoinGecko API
   useEffect(() => {
-    // const stocksURL = `https://financialmodelingprep.com/api/v3/stock/actives?apikey=`;
     const stocksURL = `https://financialmodelingprep.com/api/v3/stock/actives?apikey=01dc0027bd7c9d74f761d14c060c736f`;
     const getPopularStocks = async () => {
-      // const res = await fetch(`${stocksURL}${process.env.REACT_APP_API_KEY}`);
       const res = await fetch(`${stocksURL}`);
       if (res.ok) {
         const payload = await res.json();

@@ -7,7 +7,7 @@ const BarChart = () => {
   const { theme } = useContext(ThemeContext);
   const series = [
     {
-      name: "Temperature in Fahrenheit", //will be displayed on the y-axis
+      name: "Prices in USD", //will be displayed on the y-axis
       data: [43, 53, 50, 57],
     },
   ];
