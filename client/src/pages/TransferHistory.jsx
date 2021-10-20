@@ -10,7 +10,7 @@ const TransferHistory = () => {
         <h2 className="transferTitle">Funds Transfer History</h2>
         <Card className={`walletCard ${theme}`}>
           <Card.Body className="transferHis">
-            To display Transaction History here
+            To display deposit/withdrawal History here
           </Card.Body>
         </Card>
       </Col>
