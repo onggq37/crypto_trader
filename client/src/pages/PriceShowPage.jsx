@@ -29,7 +29,7 @@ const PriceShowPage = (props) => {
         setPriceChange(payload[0].changes);
       }
     };
-    getActiveStocks();
+    // getActiveStocks();
   }, []);
 
   return (
