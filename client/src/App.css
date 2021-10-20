@@ -250,9 +250,14 @@ tr:hover {
   width: 100%;
 }
 
+.showPricePage {
+  text-align: left;
+}
+
 .Login.dark,
 .Signup.dark,
 .pricePage.dark,
+.showPricePage.dark,
 .walletPage.dark {
   background-color: #242424;
   color: white;
@@ -262,6 +267,33 @@ tr:hover {
 .Signup form {
   margin: 0 auto;
   max-width: 320px;
+}
+
+.walletCard {
+  text-align: center;
+}
+
+.walletCard.dark {
+  background-color: #242424;
+  color: white;
+}
+
+/* For error messages display */
+.success {
+  background-color: #90ee90;
+  border-radius: 8px;
+  margin: 20px 40%;
+  padding: 10px;
+  text-align: center;
+}
+
+.fail {
+  background-color: #ffcccb;
+  color: black;
+  border-radius: 8px;
+  margin: 20px 40%;
+  padding: 10px;
+  text-align: center;
 }
 
 @media all and (min-width: 480px) {
@@ -278,6 +310,19 @@ tr:hover {
   height: 150px;
   width: 150px;
   margin: auto;
+}
+
+.transferTitle {
+  padding-top: 20px;
+  text-align: left;
+}
+.transferFunds {
+  height: 500px;
+  text-align: left;
+}
+.transferHis {
+  height: 200px;
+  text-align: left;
 }
 
 @media (max-width: 900px) {

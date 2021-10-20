@@ -4,6 +4,11 @@ const UserSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
+
+    contactNumber: {
+        type: Number,
+    },
+
     email: {
         type: String,
         required: true,
@@ -16,7 +21,12 @@ const UserSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
-    }
+    },
+
+    ownedAssetsQtyAndCostBase: {
+        type: Object,
+        default: {"usd": 0}
+    },
 })
 
 module.exports = mongoose.model("User", UserSchema);

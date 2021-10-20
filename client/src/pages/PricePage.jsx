@@ -5,6 +5,8 @@ import ThemeContext from "../ThemeContext";
 const Price = () => {
   const [popularCoin, setPopularCoin] = useState([]);
   const { theme } = useContext(ThemeContext);
+
+  // To replace with CoinGecko API
   useEffect(() => {
     const getPopularCoins = async () => {
       const res = await fetch("/api/prices", {
@@ -30,19 +32,20 @@ const Price = () => {
         <h1>CryptoCurrency Prices</h1>
         <br />
         <table>
-          <tr>
-            <th>Crypto Name</th>
-            <th>Price</th>
-            <th>Change</th>
-            <th>24h %</th>
-            <th>Market Cap</th>
-          </tr>
-
+          <thead>
+            <tr>
+              <th>Crypto Name</th>
+              <th>Price</th>
+              <th>Change</th>
+              <th>24h %</th>
+              <th>Market Cap</th>
+            </tr>
+          </thead>
           {popularCoin.map((coin, index) => (
             <tr key={index}>
               <td>
                 {" "}
-                <img src={coin.image} alt={coin.name} />
+                <img src={coin.image} alt={coin.name} />{" "}
                 <Link to={"/stock/" + coin.symbol}>{coin.name}</Link>
               </td>{" "}
               <td>${coin.price}</td>
@@ -63,7 +66,8 @@ const Price = () => {
                     : { color: "red" }
                 }>{coin.percentPriceChange24Hr.toFixed(2)}%</td>
               <td>{coin.marketCap}</td>
-            </tr>
+              </tr>
+            </tbody>
           ))}
         </table>
       </div>

@@ -4,10 +4,12 @@ import { useHistory } from "react-router-dom";
 import CenteredModals from "../components/CenteredModals";
 import ThemeContext from "../ThemeContext";
 
-const LoginPage = () => {
+const LoginPage = ({ setIsAuth, setStatus, showErrorMsg, setShowErrorMsg }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState("");
+
   const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
@@ -30,25 +32,29 @@ const LoginPage = () => {
     const response = await fetch("/api/auth", {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
       body: JSON.stringify({
         email: email,
         password: password,
-      })
-    })
+      }),
+    });
 
     const result = await response.json();
-    console.log(result);
+
     //To do: loop through the error and display it
     if (result.errors) {
-      return alert(`${result.errors[0].msg}`);
+      setShowErrorMsg(true);
+      setMessage(result.errors[0].msg);
+      // return alert(`${result.errors[0].msg}`);
     }
 
     if (result.token) {
-      localStorage.setItem('token', result.token);
+      localStorage.setItem("token", result.token);
+      setStatus("Log Out");
+      setIsAuth(true); //for frontend protected wallet route
+      history.push("/wallet");
     }
-    history.push("/");
   };
 
   return (
@@ -56,6 +62,7 @@ const LoginPage = () => {
       <img src={`./images/sm_logo_${theme}.png`} height="80px" alt="logo" />{" "}
       <br />
       <h2>Welcome Back</h2> <br />
+      {showErrorMsg && <div className="fail">{message}</div>}
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="email">
           <Form.Control
