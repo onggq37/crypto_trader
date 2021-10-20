@@ -3,11 +3,13 @@ import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import ThemeContext from "../ThemeContext";
 
-const SignUpPage = () => {
+const SignUpPage = ({ showErrorMsg, setShowErrorMsg }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+
   const { theme } = useContext(ThemeContext);
   const history = useHistory();
 
@@ -33,32 +35,31 @@ const SignUpPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // alert(`Welcome ${name}, You are signed up!`);
-    // Add axios here
     const response = await fetch("/api/users", {
       method: "POST",
       headers: {
-        "content-type": "application/json"
+        "content-type": "application/json",
       },
       body: JSON.stringify({
         name: name,
         email: email,
         password: password,
-      })
-      
-    })
+      }),
+    });
 
     const result = await response.json();
     console.log(result);
     //To do: loop through the error and display it
     if (result.errors) {
-      return alert(`${result.errors[0].msg}`);
+      setShowErrorMsg(true);
+      setMessage(result.errors[0].msg);
+      // return alert(`${result.errors[0].msg}`);
     }
 
     if (result.token) {
-      localStorage.setItem('token', result.token);
+      localStorage.setItem("token", result.token);
+      history.push("/login"); //go to login page after signing up
     }
-    history.push("/"); //go to login page after signing up
   };
 
   return (
@@ -66,6 +67,7 @@ const SignUpPage = () => {
       <img src={`./images/sm_logo_${theme}.png`} height="80px" alt="logo" />{" "}
       <br />
       <h2>Create Account</h2> <br />
+      {showErrorMsg && <div className="fail">{message}</div>}
       <Form onSubmit={handleSubmit}>
         <Form.Group size="lg" controlId="name">
           <Form.Control
@@ -92,7 +94,9 @@ const SignUpPage = () => {
             value={password}
             onChange={handlePassword}
           />
-          <br />
+        </Form.Group>
+        <br />
+        <Form.Group size="lg" controlId="confirmPassword">
           <Form.Control
             type="password"
             placeholder="Confirm Password"

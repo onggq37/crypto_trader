@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NaviBar from "./components/Navibar";
 import ProductPage from "./pages/ProductPage";
@@ -9,6 +9,7 @@ import SignUpPage from "./pages/SignUpPage";
 import AcademyPage from "./pages/AcademyPage";
 import WalletPage from "./pages/WalletPage";
 import ThemeContext from "./ThemeContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   const [theme, setTheme] = useState("light");
@@ -18,7 +19,7 @@ const App = () => {
   const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   // This useEffect hook automatically hides the
-  // success and error messages after 2s when they're shown.
+  // success and error messages after 3s when they're shown.
   useEffect(() => {
     if (showSuccessMsg || showErrorMsg) {
       setTimeout(() => {
@@ -30,41 +31,54 @@ const App = () => {
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
-      <div className="App">
-        <NaviBar status={status} setStatus={setStatus} setIsAuth={setIsAuth} />
-        <main>
-          <Switch>
-            <Route exact path="/">
-              <HomePage />
-            </Route>
-            <Route path="/products">
-              <ProductPage />
-            </Route>
-            <Route path="/prices">
-              <PricePage />
-            </Route>
-            <Route path="/academy">
-              <AcademyPage />
-            </Route>
-            <Route path="/login">
-              <LoginPage
-                setStatus={setStatus}
+      <Router>
+        <div className="App">
+          <NaviBar
+            status={status}
+            setStatus={setStatus}
+            setIsAuth={setIsAuth}
+          />
+          <main>
+            <Switch>
+              <Route exact path="/">
+                <HomePage />
+              </Route>
+              <Route path="/products">
+                <ProductPage />
+              </Route>
+              <Route path="/prices">
+                <PricePage />
+              </Route>
+              <Route path="/academy">
+                <AcademyPage />
+              </Route>
+              <Route path="/login">
+                <LoginPage
+                  setStatus={setStatus}
+                  isAuth={isAuth}
+                  setIsAuth={setIsAuth}
+                  showErrorMsg={showErrorMsg}
+                  setShowErrorMsg={setShowErrorMsg}
+                />
+              </Route>
+              <Route path="/signup">
+                <SignUpPage
+                  showErrorMsg={showErrorMsg}
+                  setShowErrorMsg={setShowErrorMsg}
+                />
+              </Route>
+              {/* wallet Route only for after user login */}
+              <ProtectedRoute
+                path="/wallet"
+                component={WalletPage}
                 isAuth={isAuth}
-                setIsAuth={setIsAuth}
-                showErrorMsg={showErrorMsg}
-                setShowErrorMsg={setShowErrorMsg}
+                status={status}
+                setStatus={setStatus}
               />
-            </Route>
-            <Route path="/signup">
-              <SignUpPage />
-            </Route>
-            {/* wallet Route only for after user login */}
-            <Route path="/wallet">
-              <WalletPage />
-            </Route>
-          </Switch>
-        </main>
-      </div>
+            </Switch>
+          </main>
+        </div>
+      </Router>
     </ThemeContext.Provider>
   );
 };

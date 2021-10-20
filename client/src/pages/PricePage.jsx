@@ -40,11 +40,10 @@ const Price = () => {
             <tbody>
               <tr key={index}>
                 <td>
-                  {" "}
                   {stock.ticker} (
                   <Link to={"/stock/" + stock.ticker}>{stock.companyName}</Link>
                   )
-                </td>{" "}
+                </td>
                 <td>{stock.price}</td>
                 <td
                   style={

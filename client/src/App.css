@@ -264,6 +264,33 @@ tr:hover {
   max-width: 320px;
 }
 
+.walletCard {
+  text-align: center;
+}
+
+.walletCard.dark {
+  background-color: #242424;
+  color: white;
+}
+
+/* For error messages display */
+.success {
+  background-color: #90ee90;
+  border-radius: 8px;
+  margin: 20px 40%;
+  padding: 10px;
+  text-align: center;
+}
+
+.fail {
+  background-color: #ffcccb;
+  color: black;
+  border-radius: 8px;
+  margin: 20px 40%;
+  padding: 10px;
+  text-align: center;
+}
+
 @media all and (min-width: 480px) {
   h6 {
     padding-top: 1rem;
