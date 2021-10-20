@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import NaviBar from "./components/Navibar";
@@ -12,11 +12,26 @@ import ThemeContext from "./ThemeContext";
 
 const App = () => {
   const [theme, setTheme] = useState("light");
+  const [isAuth, setIsAuth] = useState(false);
+  const [status, setStatus] = useState("Log In");
+  const [showSuccessMsg, setShowSuccessMsg] = useState(false);
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
+
+  // This useEffect hook automatically hides the
+  // success and error messages after 2s when they're shown.
+  useEffect(() => {
+    if (showSuccessMsg || showErrorMsg) {
+      setTimeout(() => {
+        setShowSuccessMsg(false);
+        setShowErrorMsg(false);
+      }, 3000);
+    }
+  }, [showSuccessMsg, showErrorMsg]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <div className="App">
-        <NaviBar />
+        <NaviBar status={status} setStatus={setStatus} setIsAuth={setIsAuth} />
         <main>
           <Switch>
             <Route exact path="/">
@@ -32,7 +47,13 @@ const App = () => {
               <AcademyPage />
             </Route>
             <Route path="/login">
-              <LoginPage />
+              <LoginPage
+                setStatus={setStatus}
+                isAuth={isAuth}
+                setIsAuth={setIsAuth}
+                showErrorMsg={showErrorMsg}
+                setShowErrorMsg={setShowErrorMsg}
+              />
             </Route>
             <Route path="/signup">
               <SignUpPage />

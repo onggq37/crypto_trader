@@ -4,8 +4,15 @@ import { Button, Navbar } from "react-bootstrap";
 import ThemeChangerButton from "./ThemeChangerButton";
 import ThemeContext from "../ThemeContext";
 
-const Navibar = () => {
+const Navibar = ({ status, setStatus, setIsAuth }) => {
   const { theme } = useContext(ThemeContext);
+
+  const handleLogOut = () => {
+    setStatus("Log In");
+    setIsAuth(false);
+    localStorage.removeItem("token");
+  };
+
   return (
     <div>
       <Navbar
@@ -39,9 +46,15 @@ const Navibar = () => {
             />
           </form>
           <Button variant="secondary" id="responsive-navbar-nav">
-            <Link className={`${theme}`} to="/login">
-              Log In
-            </Link>
+            {status === "Log Out" ? (
+              <Link className={`${theme}`} to="/" onClick={handleLogOut}>
+                {status}
+              </Link>
+            ) : (
+              <Link className={`${theme}`} to="/login">
+                {status === "Log In" ? "Log In" : "Log Out"}
+              </Link>
+            )}
           </Button>
           <Button variant="secondary" id="responsive-navbar-nav">
             <Link className={`${theme}`} to="/signup">

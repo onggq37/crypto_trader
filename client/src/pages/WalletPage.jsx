@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import { Container, Col, Row, Card, Tabs, Tab } from "react-bootstrap";
-import PricePage from "./PricePage";
 import BalancePage from "./BalancePage";
 import TransactionPage from "./TransactionPage";
 import TransferPage from "./TransferPage";
@@ -18,7 +17,7 @@ const WalletPage = () => {
         <Row xs={1} md={1}>
           <Col>
             <Card>
-              <Card.Img id="icon" img src="" />
+              <Card.Img id="icon" src="" />
               <Card.Body>
                 <Card.Title>Account Balances</Card.Title>
                 <Tabs
