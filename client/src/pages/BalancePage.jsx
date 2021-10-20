@@ -1,61 +1,61 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import DonutChart from "../components/DonutChart";
+import BarChart from "../components/BarChart";
+import { Container, Col, Row, Card } from "react-bootstrap";
 import ThemeContext from "../ThemeContext";
 
 const BalancePage = () => {
-  const [popularStock, setPopularStock] = useState([]);
   const { theme } = useContext(ThemeContext);
-  useEffect(() => {
-    const stocksURL = `https://financialmodelingprep.com/api/v3/stock/actives?apikey=01dc0027bd7c9d74f761d14c060c736f`;
-    // const getPopularStocks = async () => {
-    //   const res = await fetch(`${stocksURL}`);
-    //   if (res.ok) {
-    //     const payload = await res.json();
-    //     setPopularStock(payload.mostActiveStock);
-    //   }
-    // };
-    // getPopularStocks();
-  }, []);
-
   return (
-    <>
-      <div className={`pricePage ${theme}`}>
-        <h1>CryptoCurrency Prices</h1>
-        <br />
-        <table>
-          <thead>
-            <tr>
-              <th>Currency</th>
-              <th>Notional balance (USD)</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
+    <div>
+      <Container>
+        <Row xs={1} md={1}>
+          <Col>
+            <Card className={`walletCard ${theme}`}>
+              <Card.Img id="icon" />
+              <Card.Body>
+                <h1>Account Balances</h1>
+                <h3>Display User's cryto holdings here</h3>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Holdings</th>
+                      <th>Value</th>
+                      <th>Gain/Lost</th>
+                    </tr>
+                  </thead>
 
-          {popularStock.map((stock, index) => (
-            <tbody>
-              <tr key={index}>
-                <td>
-                  {" "}
-                  {stock.ticker} (
-                  <Link to={"/stock/" + stock.ticker}>{stock.companyName}</Link>
-                  )
-                </td>{" "}
-                <td>{stock.price}</td>
-                <td
-                  style={
-                    stock.changes > 0 ? { color: "green" } : { color: "red" }
-                  }
-                >
-                  <strong>
-                    {stock.changes} ({stock.changesPercentage}%)
-                  </strong>
-                </td>
-              </tr>
-            </tbody>
-          ))}
-        </table>
-      </div>
-    </>
+                  <tbody>
+                    <tr>
+                      <td>BTC</td>
+                      <td>0.5</td>
+                      <td>$2000</td>
+                      <td>-$1000</td>
+                    </tr>
+                    <tr>
+                      <td>ETH</td>
+                      <td>2.5</td>
+                      <td>$1000</td>
+                      <td>+$1000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <br />
+        <Row xs={1} md={2} lg={2}>
+          <Col>
+            <DonutChart />
+          </Col>
+          <Col>
+            <BarChart />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 

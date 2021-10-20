@@ -29,14 +29,17 @@ const Navibar = ({ status, setStatus, setIsAuth }) => {
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link className={`${theme}`} to="/wallet">
-            Wallet
+          <Link className={`${theme}`} to="/products">
+            Products
           </Link>
           <Link className={`${theme}`} to="/prices">
             Crypto Prices
           </Link>
           <Link className={`${theme}`} to="/academy">
             Academy
+          </Link>
+          <Link className={`${theme}`} to="/wallet">
+            Wallet
           </Link>
           <form className="form-inline">
             <input
