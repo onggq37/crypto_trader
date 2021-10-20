@@ -250,9 +250,14 @@ tr:hover {
   width: 100%;
 }
 
+.showPricePage {
+  text-align: left;
+}
+
 .Login.dark,
 .Signup.dark,
 .pricePage.dark,
+.showPricePage.dark,
 .walletPage.dark {
   background-color: #242424;
   color: white;
@@ -305,6 +310,19 @@ tr:hover {
   height: 150px;
   width: 150px;
   margin: auto;
+}
+
+.transferTitle {
+  padding-top: 20px;
+  text-align: left;
+}
+.transferFunds {
+  height: 500px;
+  text-align: left;
+}
+.transferHis {
+  height: 200px;
+  text-align: left;
 }
 
 @media (max-width: 900px) {
