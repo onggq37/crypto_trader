@@ -1,20 +1,18 @@
 import React, { useContext } from "react";
 import ThemeContext from "../ThemeContext";
 import { FcGraduationCap } from "react-icons/fc";
+import Posts from "../components/postsContainer/PostsContainer";
+import Write from "../components/writePost/WritePost";
 
 const AcademyPage = () => {
   const { theme } = useContext(ThemeContext);
   return (
-    <div className={`Login ${theme}`}>
+    <div className={`academy ${theme}`}>
       <h1>
         CryptoTrader Academy <FcGraduationCap />
       </h1>
-      <img
-        id="logo"
-        src="images/under-construction.png"
-        alt="logo"
-        height="300px"
-      />
+      <Write />
+      <Posts />
     </div>
   );
 };

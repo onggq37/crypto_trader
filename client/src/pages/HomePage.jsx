@@ -90,6 +90,9 @@ const Home = () => {
           </Link>
         </Button>
       </div>
+      <p className="copyright">
+        Copyright 2021 CryptoTrader Inc, All Rights Reserved.
+      </p>
       <div className="banner fixed-bottom"></div>
     </>
   );

@@ -249,6 +249,7 @@ tr:hover {
 }
 
 .Login.dark,
+.academy.dark,
 .Signup.dark,
 .pricePage.dark,
 .showPricePage.dark,
@@ -263,8 +264,14 @@ tr:hover {
   max-width: 320px;
 }
 
+.academy form {
+  margin: 0 15vw;
+  align-content: center;
+}
+
 .walletCard {
   text-align: center;
+  max-width: 400px;
 }
 
 .walletCard.dark {
@@ -373,4 +380,8 @@ tr:hover {
       transform: rotate(0deg);
     }
   }
+}
+
+.copyright {
+  padding-bottom: 80px;
 }
