@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import ThemeContext from "../ThemeContext";
+import { SiBitcoinsv } from "react-icons/si";
 
 const Price = () => {
   const [popularCoin, setPopularCoin] = useState([]);
@@ -29,7 +30,9 @@ const Price = () => {
   return (
     <>
       <div className={`pricePage ${theme}`}>
-        <h1>CryptoCurrency Prices</h1>
+        <h1>
+          CryptoCurrency Prices <SiBitcoinsv />
+        </h1>
         <br />
         <table>
           <thead>

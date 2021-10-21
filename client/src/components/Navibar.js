@@ -3,13 +3,21 @@ import { Link } from "react-router-dom";
 import { Button, Navbar } from "react-bootstrap";
 import ThemeChangerButton from "./ThemeChangerButton";
 import ThemeContext from "../ThemeContext";
+import { FaUserCheck, FaUserPlus } from "react-icons/fa";
 
-const Navibar = ({ status, setStatus, setIsAuth, btnDisable }) => {
+const Navibar = ({
+  status,
+  setStatus,
+  setIsAuth,
+  btnDisable,
+  setBtnDisable,
+}) => {
   const { theme } = useContext(ThemeContext);
 
   const handleLogOut = () => {
     setStatus("Log In");
     setIsAuth(false);
+    setBtnDisable(false);
     localStorage.removeItem("token");
   };
 
@@ -52,7 +60,7 @@ const Navibar = ({ status, setStatus, setIsAuth, btnDisable }) => {
           <Button variant="secondary" id="responsive-navbar-nav">
             {status === "Log Out" ? (
               <Link className={`${theme}`} to="/" onClick={handleLogOut}>
-                {status}
+                <FaUserCheck /> {status}
               </Link>
             ) : (
               <Link className={`${theme}`} to="/login">
@@ -66,7 +74,7 @@ const Navibar = ({ status, setStatus, setIsAuth, btnDisable }) => {
             disabled={btnDisable}
           >
             <Link className={`${theme}`} to="/signup">
-              Sign Up
+              Sign Up <FaUserPlus />
             </Link>
           </Button>
         </Navbar.Collapse>

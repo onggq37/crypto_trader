@@ -33,8 +33,8 @@ const LoginPage = ({
 
   // To modify handleSubmit with JWT authentication
   const handleSubmit = async (e) => {
-    // setShowModal(true);
     e.preventDefault();
+    // setShowModal(true);
     const response = await fetch("/api/auth", {
       method: "POST",
       headers: {

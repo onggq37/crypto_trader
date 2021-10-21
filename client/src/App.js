@@ -40,6 +40,7 @@ const App = () => {
             setStatus={setStatus}
             setIsAuth={setIsAuth}
             btnDisable={btnDisable}
+            setBtnDisable={setBtnDisable}
           />
           <main>
             <Switch>
