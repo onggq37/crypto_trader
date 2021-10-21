@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import CenteredModals from "../components/CenteredModals";
+// import CenteredModals from "../components/CenteredModals";
 import ThemeContext from "../ThemeContext";
 
 const LoginPage = ({
