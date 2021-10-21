@@ -18,6 +18,7 @@ const App = () => {
   const [status, setStatus] = useState("Log In");
   const [showSuccessMsg, setShowSuccessMsg] = useState(false);
   const [showErrorMsg, setShowErrorMsg] = useState(false);
+  const [btnDisable, setBtnDisable] = useState(false);
 
   // This useEffect hook automatically hides the
   // success and error messages after 3s when they're shown.
@@ -38,6 +39,7 @@ const App = () => {
             status={status}
             setStatus={setStatus}
             setIsAuth={setIsAuth}
+            btnDisable={btnDisable}
           />
           <main>
             <Switch>
@@ -61,6 +63,8 @@ const App = () => {
                   setIsAuth={setIsAuth}
                   showErrorMsg={showErrorMsg}
                   setShowErrorMsg={setShowErrorMsg}
+                  btnDisable={btnDisable}
+                  setBtnDisable={setBtnDisable}
                 />
               </Route>
               <Route path="/signup">

@@ -4,7 +4,7 @@ import { Button, Navbar } from "react-bootstrap";
 import ThemeChangerButton from "./ThemeChangerButton";
 import ThemeContext from "../ThemeContext";
 
-const Navibar = ({ status, setStatus, setIsAuth }) => {
+const Navibar = ({ status, setStatus, setIsAuth, btnDisable }) => {
   const { theme } = useContext(ThemeContext);
 
   const handleLogOut = () => {
@@ -41,13 +41,14 @@ const Navibar = ({ status, setStatus, setIsAuth }) => {
           <Link className={`${theme}`} to="/wallet">
             Wallet
           </Link>
-          <form className="form-inline">
+          <ThemeChangerButton />
+          {/* <form className="form-inline">
             <input
               className="form-control"
               type="search"
               placeholder="Search"
             />
-          </form>
+          </form> */}
           <Button variant="secondary" id="responsive-navbar-nav">
             {status === "Log Out" ? (
               <Link className={`${theme}`} to="/" onClick={handleLogOut}>
@@ -59,12 +60,15 @@ const Navibar = ({ status, setStatus, setIsAuth }) => {
               </Link>
             )}
           </Button>
-          <Button variant="secondary" id="responsive-navbar-nav">
+          <Button
+            variant="secondary"
+            id="responsive-navbar-nav"
+            disabled={btnDisable}
+          >
             <Link className={`${theme}`} to="/signup">
               Sign Up
             </Link>
           </Button>
-          <ThemeChangerButton />
         </Navbar.Collapse>
       </Navbar>
     </div>

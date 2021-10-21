@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import ThemeContext from "../ThemeContext";
+import { BsMoonStarsFill, BsSun } from "react-icons/bs";
 
 const ThemeChangerButton = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -13,7 +14,7 @@ const ThemeChangerButton = () => {
 
   return (
     <button className={`ThemeChangerButton ${theme}`} onClick={handleClick}>
-      Dark / Light
+      <BsMoonStarsFill /> | <BsSun />
     </button>
   );
 };

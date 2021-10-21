@@ -61,7 +61,7 @@
 }
 
 .mainLogo {
-  padding-left: 100px;
+  padding-left: 150px;
 }
 nav {
   display: flex;
@@ -102,7 +102,7 @@ nav a:hover {
 
 #responsive-navbar-nav {
   padding: 0 1px;
-  margin: 0 0 0 25px;
+  margin: 0 10px 0 25px;
 }
 
 .mainPage {
@@ -122,13 +122,6 @@ nav a:hover {
 .mainGrid.dark {
   background-color: #242424;
   color: white;
-}
-
-@media (max-width: 768px) {
-  .mainGrid {
-    grid-template-columns: 100%;
-    grid-gap: 5%;
-  }
 }
 
 .App {
@@ -220,21 +213,22 @@ tr:hover {
 }
 
 .ThemeChangerButton {
-  margin-left: 20px;
+  margin: 0 20px;
+  padding: 0 15px 5px 15px;
   border: none;
 }
 
 .ThemeChangerButton.dark {
   background-color: #242424;
   border: solid white;
-  border-radius: 5px;
+  border-radius: 15px;
   color: white;
 }
 
 .ThemeChangerButton.light {
   background-color: #789fda;
   border: solid #242424;
-  border-radius: 5px;
+  border-radius: 15px;
   color: white;
 }
 
@@ -296,6 +290,8 @@ tr:hover {
   text-align: center;
 }
 
+/* media query portion */
+
 @media all and (min-width: 480px) {
   h6 {
     padding-top: 1rem;
@@ -323,6 +319,16 @@ tr:hover {
 .transferHis {
   height: 200px;
   text-align: left;
+}
+
+@media (max-width: 768px) {
+  .mainGrid {
+    grid-template-columns: 100%;
+    grid-gap: 5%;
+  }
+  .mainLogo {
+    padding-left: 50px;
+  }
 }
 
 @media (max-width: 900px) {

@@ -4,7 +4,13 @@ import { useHistory } from "react-router-dom";
 import CenteredModals from "../components/CenteredModals";
 import ThemeContext from "../ThemeContext";
 
-const LoginPage = ({ setIsAuth, setStatus, showErrorMsg, setShowErrorMsg }) => {
+const LoginPage = ({
+  setIsAuth,
+  setStatus,
+  showErrorMsg,
+  setShowErrorMsg,
+  setBtnDisable,
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showModal, setShowModal] = useState(false);
@@ -53,6 +59,7 @@ const LoginPage = ({ setIsAuth, setStatus, showErrorMsg, setShowErrorMsg }) => {
       localStorage.setItem("token", result.token);
       setStatus("Log Out");
       setIsAuth(true); //for frontend protected wallet route
+      setBtnDisable(true);
       history.push("/wallet");
     }
   };
