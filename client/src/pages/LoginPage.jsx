@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import CenteredModals from "../components/CenteredModals";
+// import CenteredModals from "../components/CenteredModals";
 import ThemeContext from "../ThemeContext";
 
 const LoginPage = ({
@@ -13,7 +13,7 @@ const LoginPage = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
 
   const { theme } = useContext(ThemeContext);
@@ -98,7 +98,7 @@ const LoginPage = ({
         >
           Login
         </Button>
-        <CenteredModals show={showModal} onHide={() => setShowModal(false)} />
+        {/* <CenteredModals show={showModal} onHide={() => setShowModal(false)} /> */}
         <h6 onClick={() => history.push("/forgot-password")}>
           Forgot your password?
         </h6>

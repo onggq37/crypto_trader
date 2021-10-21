@@ -102,7 +102,7 @@ nav a:hover {
 
 #responsive-navbar-nav {
   padding: 0 1px;
-  margin: 0 10px 0 25px;
+  margin: 0 10px;
 }
 
 .mainPage {
@@ -263,6 +263,9 @@ tr:hover {
   margin: 0 auto;
   max-width: 320px;
 }
+.academy {
+  padding: 130px 0;
+}
 
 .academy form {
   margin: 0 15vw;
@@ -271,7 +274,7 @@ tr:hover {
 
 .walletCard {
   text-align: center;
-  max-width: 400px;
+  /* max-width: 200px; */
 }
 
 .walletCard.dark {

@@ -39,9 +39,9 @@ const Navibar = ({
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Link className={`${theme}`} to="/products">
+          {/* <Link className={`${theme}`} to="/products">
             Products
-          </Link>
+          </Link> */}
           <Link className={`${theme}`} to="/prices">
             Crypto Prices
           </Link>
