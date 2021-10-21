@@ -1,7 +1,35 @@
+import React, { useState, useContext } from "react";
 import "./writePost.css";
-import { Form } from "react-bootstrap";
+import axios from "axios";
 
 const WritePost = () => {
+  // const handleSubmit = async (e) => {
+  //   const [title, setTitle] = useState("");
+  //   const [desc, setDesc] = useState("");
+  //   const [file, setFile] = useState(null);
+  //   const { user } = useContext(Context);
+  //   e.preventDefault();
+  //   const newPost = {
+  //     username: user.username,
+  //     title,
+  //     desc,
+  //   };
+  //   if (file) {
+  //     const data = new FormData();
+  //     const filename = Date.now() + file.name;
+  //     data.append("name", filename);
+  //     data.append("file", file);
+  //     newPost.photo = filename;
+  //     try {
+  //       await axios.post("/upload", data);
+  //     } catch (err) {}
+  //   }
+  //   try {
+  //     const res = await axios.post("/posts", newPost);
+  //     window.location.replace("/post/" + res.data._id);
+  //   } catch (err) {}
+  // };
+
   return (
     <div className="write">
       <img
