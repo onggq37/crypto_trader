@@ -1,43 +1,68 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
 import DonutChart from "../components/DonutChart";
 import BarChart from "../components/BarChart";
 import { Container, Col, Row, Card } from "react-bootstrap";
 import ThemeContext from "../ThemeContext";
 
 const BalancePage = () => {
+  const [userSummary, setUserSummary] = useState([]);
   const { theme } = useContext(ThemeContext);
+
+  // To replace with CoinGecko API
+  useEffect(() => {
+    const getUserSummary = async () => {
+      const res = await fetch("/api/wallet", {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        const payload = await res.json();
+        setUserSummary(payload);
+      } else {
+        console.error("Server Error");
+      }
+    };
+    getUserSummary();
+  }, []);
+
+  
   return (
+    <>
     <div>
       <Container>
         <Row xs={1} md={1}>
           <Col>
             <Card className={`walletCard ${theme}`}>
               <Card.Body>
-                <h1>Account Balances</h1>
-                <h3>Display User's cryto holdings here</h3>
+                <h1>(Name) Account Balances</h1>
+                <h3>Summary at a glance</h3>
                 <table>
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Holdings</th>
-                      <th>Value</th>
-                      <th>Gain/Lost</th>
+                      <th>Coin Currency Pairing</th>
+                      <th>Quantity</th>
+                      <th>Previous price bought</th>
+                      <th>Current coin price</th>
+                      <th>Profit and Loss</th>
+                      <th>% profit / loss</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    <tr>
-                      <td>BTC</td>
-                      <td>0.5</td>
-                      <td>$2000</td>
-                      <td>-$1000</td>
-                    </tr>
-                    <tr>
-                      <td>ETH</td>
-                      <td>2.5</td>
-                      <td>$1000</td>
-                      <td>+$1000</td>
-                    </tr>
+                       {userSummary.map((summary, index) => (
+              <tr key={index}>
+                  <td>{summary.coinSymbol}</td>
+                  <td>{summary.currentCoinsOwned}</td>
+                  <td>{summary.costBase}</td>
+                  <td>{summary.currentCoinPrice}</td>
+                  <td>{summary.profitAndLoss}</td>
+                  <td>{summary.percentage}</td>
+              </tr>
+              ))}
                   </tbody>
                 </table>
               </Card.Body>
@@ -55,6 +80,7 @@ const BalancePage = () => {
         </Row>
       </Container>
     </div>
+    </>
   );
 };
 

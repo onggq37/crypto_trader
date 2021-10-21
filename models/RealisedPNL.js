@@ -37,6 +37,6 @@ const RealisedPNLSchema = new mongoose.Schema({
         type: Number
     },
 
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model("RealisedPNL", RealisedPNLSchema);
