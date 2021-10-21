@@ -82,6 +82,7 @@ const App = () => {
                 status={status}
                 setStatus={setStatus}
               />
+              <Route path="/post/:postId"></Route>
             </Switch>
           </main>
         </div>
