@@ -6,6 +6,10 @@ const Price = () => {
   const [popularCoin, setPopularCoin] = useState([]);
   const { theme } = useContext(ThemeContext);
 
+  const numberWithCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
   // To replace with CoinGecko API
   useEffect(() => {
     const getPopularCoins = async () => {
@@ -26,6 +30,16 @@ const Price = () => {
     getPopularCoins();
   }, []);
 
+  const numPrecision = (num) => {
+    console.log(num.toFixed(2));
+    if(num.toFixed(2) === '0.00') {
+      console.log("here");
+      return (num.toPrecision(2));
+    } else {
+      return numberWithCommas(num.toFixed(2))
+    }
+  }
+  
   return (
     <>
       <div className={`pricePage ${theme}`}>
@@ -48,9 +62,9 @@ const Price = () => {
                 <td>
                   {" "}
                   <img src={coin.image} alt={coin.name} />{" "}
-                  <Link to={"/stock/" + coin.symbol}>{coin.name}</Link>
+                  <Link to={"/price/" + coin.id}>{coin.name}</Link>
                 </td>{" "}
-                <td>${coin.price}</td>
+                <td>${numPrecision(coin.price)}</td>
                 <td
                   style={
                     coin.priceChange24Hr > 0
@@ -58,7 +72,7 @@ const Price = () => {
                       : { color: "red" }
                   }
                 >
-                  <strong>${coin.priceChange24Hr.toFixed(2)}</strong>
+                  <strong>${numPrecision(coin.priceChange24Hr)}</strong>
                 </td>
                 <td
                   style={
@@ -67,9 +81,11 @@ const Price = () => {
                       : { color: "red" }
                   }
                 >
-                  {coin.percentPriceChange24Hr.toFixed(2)}%
+                  <strong>
+                    {numPrecision(coin.percentPriceChange24Hr)}%
+                  </strong>
                 </td>
-                <td>{coin.marketCap}</td>
+                <td>{numberWithCommas(coin.marketCap)}</td>
               </tr>
             </tbody>
           ))}
