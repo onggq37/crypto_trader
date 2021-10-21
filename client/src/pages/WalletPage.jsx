@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Container, Col, Row, Card, Tabs, Tab } from "react-bootstrap";
 import { withRouter } from "react-router";
 import TransactionPage from "./TransactionPage";
@@ -9,7 +9,24 @@ import { GiMoneyStack } from "react-icons/gi";
 
 const WalletPage = ({ status, setStatus }) => {
   const [key, setKey] = useState("balances");
+  const [balance, setBalance] = useState([])
   const { theme } = useContext(ThemeContext);
+
+  // useEffect(async () => {
+  //   const token = localStorage.getItem('token');
+
+  //   const response = await fetch("/api/wallet", {
+  //     headers: {
+  //       'Content-Type': `application/json`,
+  //       'x-auth-token': `${token}`
+  //     }
+  //   });
+  
+  //   const results = await response.json();
+  //   setBalance(results);
+  //   console.log(results)
+  // }, [])
+
 
   return (
     <div className={`walletPage ${theme}`}>
@@ -30,7 +47,7 @@ const WalletPage = ({ status, setStatus }) => {
                   className="mb-3"
                 >
                   <Tab eventKey="balances" title="Account Balances">
-                    <BalancePage />
+                    <BalancePage balance = {balance} />
                   </Tab>
                   <Tab eventKey="transaction" title="Transaction History">
                     <TransactionPage />
