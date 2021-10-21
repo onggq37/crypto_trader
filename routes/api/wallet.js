@@ -128,15 +128,22 @@ router.get("/fetchMultipleCoins", async (req, res) => {
 
 router.use(auth)
 
-// show wallet main page
+// wallet main page (i.e. balance cum unrealised P&L)
 
 router.get("/", async (req, res) => {
     let data = await User.findById(req.user.id).select("-password");
-    data = data.ownedAssetsQtyAndCostBase
-    const summary = {}
 
-    // e.g. <coinCurrencyPair> <qty> <cost> <fair value> <P/L> <P/L %>
-    // e.g. BTCUSD 30 1000 1500 500 0.5
+    ///// test start
+
+    // let data = await User.findOne({email: req.body.email})
+    // console.log(data)
+
+    ///// test end
+
+    data = data.ownedAssetsQtyAndCostBase
+
+    const summary = []
+
 
     for (const key in data) {
         summary['usd'] = {coinSymbol: "USD", currentCoinsOwned: "-", costBase: numeralFunc(data.usd), currentCoinPrice: "-", profitAndLoss: "-", percentage: "-"}
@@ -149,17 +156,45 @@ router.get("/", async (req, res) => {
             const currentCoinPrice = coinInfo.result[1] * currentCoinsOwned
             const profitAndLoss = currentCoinPrice - costBase
 
-            summary[key] = {coinSymbol,
+            summary.push({coinSymbol,
                 currentCoinsOwned: String(roundNum(currentCoinsOwned,4)),
                 costBase: numeralFunc(costBase), 
                 currentCoinPrice: numeralFunc(currentCoinPrice), 
                 profitAndLoss: numeralFunc(profitAndLoss), 
                 percentage: String(roundNum(profitAndLoss/costBase*100, 4))
-            }
+            })
         }
     }
     res.json(summary)
 
+})
+
+// Transaction history main page
+
+router.get("/transactionhistory", async (req, res) => {
+    let data = await User.findById(req.user.id).select("-password");
+    const email = data.email
+    data = await TransactionHistory.find({email: email})
+    summary = []
+    for (const element of data) {
+        const cloneElement = element
+        if (cloneElement["createdAt"]) {
+            console.log(cloneElement["createdAt"])
+        }
+    }
+
+    // data.map(element => element.createdAt ? console.log(true) : console.log(false))
+    res.json(data)
+})
+
+//// WIP
+// Transfer history main page
+
+router.get("/transferhistory", async (req, res) => {
+    let data = await User.findById(req.user.id).select("-password");
+    const email = data.email
+    data = await TransferHistory.find({email: email})
+    res.json(data)
 })
 
 // //////////////////////////////////

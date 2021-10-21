@@ -27,8 +27,7 @@ const TransactionHistorySchema = new mongoose.Schema({
 
     grossAmount: {
         type: Number
-    },
-
-})
+    }, 
+}, {timestamps: true})
 
 module.exports = mongoose.model("TransactionHistory", TransactionHistorySchema);
