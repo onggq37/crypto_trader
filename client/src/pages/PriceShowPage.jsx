@@ -66,7 +66,7 @@ const PriceShowPage = (props) => {
                 <LineChart chartData={chartData} coinName={cryptoName} />
                 <h2>About {cryptoName}</h2>
                 <p>
-                  {description}
+                  <div dangerouslySetInnerHTML={{ __html: description }} />
                 </p>
               </Card.Body>
             </Card>
