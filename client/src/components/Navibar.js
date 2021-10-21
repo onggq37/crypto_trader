@@ -11,6 +11,7 @@ const Navibar = ({
   setIsAuth,
   btnDisable,
   setBtnDisable,
+  isAuth
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -21,6 +22,7 @@ const Navibar = ({
     localStorage.removeItem("token");
   };
 
+  console.log(isAuth)
   return (
     <div>
       <Navbar
@@ -57,26 +59,33 @@ const Navibar = ({
               placeholder="Search"
             />
           </form> */}
-          <Button variant="secondary" id="responsive-navbar-nav">
-            {status === "Log Out" ? (
-              <Link className={`${theme}`} to="/" onClick={handleLogOut}>
-                <FaUserCheck /> {status}
-              </Link>
+
+          {
+            isAuth ? (
+              <Button variant="secondary" id="responsive-navbar-nav">
+                  Logout
+            </Button>
             ) : (
-              <Link className={`${theme}`} to="/login">
-                {status === "Log In" ? "Log In" : "Log Out"}
+
+              <>
+              <Button variant="secondary" id="responsive-navbar-nav">
+                Login
+            </Button>
+
+            <Button
+              variant="secondary"
+              id="responsive-navbar-nav"
+              disabled={btnDisable}
+            >
+              <Link className={`${theme}`} to="/signup">
+                Sign Up <FaUserPlus />
               </Link>
-            )}
-          </Button>
-          <Button
-            variant="secondary"
-            id="responsive-navbar-nav"
-            disabled={btnDisable}
-          >
-            <Link className={`${theme}`} to="/signup">
-              Sign Up <FaUserPlus />
-            </Link>
-          </Button>
+            </Button>
+            </>
+            )
+          }
+
+
         </Navbar.Collapse>
       </Navbar>
     </div>

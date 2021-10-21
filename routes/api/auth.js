@@ -16,9 +16,13 @@ router.get("/", auth, async (req, res) => {
     res.json(user);
   } catch (e) {
     console.error(err.message);
-    res.status(500).send("Server Error");
+    res.status(400)
   }
 });
+
+router.get("/verify", async (req, res) => {
+  // function
+})
 
 //@route POST api/auth
 //@desc Authenticate user & get token
