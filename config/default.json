@@ -1,4 +1,4 @@
 {
-  "mongoURI": "mongodb://localhost:27017",
+  "mongoURI": "mongodb+srv://Admin123:Admin123@cryptowallet.6o4ir.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   "jwtSecret": "GeneralAssemblyProject3Token"
 }
