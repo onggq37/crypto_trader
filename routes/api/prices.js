@@ -38,7 +38,7 @@ router.get("/:id", async (req, res) => {
     const coin90dData = await CoinGeckoClient.coins.fetchMarketChart(`${req.params.id}`, { vs_currency: 'usd', days: 60, interval: 'daily' });
     // console.log(coin90dData.data.prices);
     const coinPrice = await CoinGeckoClient.coins.fetch(id=`${req.params.id}`, {localization: 'false'});
-    //res.json(coinPrice.data.market_data);
+    // res.json(coinPrice.data.market_data);
     const coinProperties = {
       name: coinPrice.data.name,
       symbol: coinPrice.data.symbol,

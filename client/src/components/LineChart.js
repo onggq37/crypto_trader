@@ -13,7 +13,7 @@ const LineChart = (props) => {
     const formattedDate = date.getUTCDate() + '-' + (date.getUTCMonth() + 1)+ '-' + date.getUTCFullYear()
     // console.log(formattedDate);
     dateArr.push(formattedDate);
-    dataArr.push(props.chartData[element][1]);
+    dataArr.push(props.chartData[element][1].toFixed(2));
   }
   
   // console.log(dateArr);
