@@ -11,7 +11,7 @@ const Navibar = ({
   setIsAuth,
   btnDisable,
   setBtnDisable,
-  isAuth
+  isAuth,
 }) => {
   const { theme } = useContext(ThemeContext);
 
@@ -22,7 +22,7 @@ const Navibar = ({
     localStorage.removeItem("token");
   };
 
-  console.log(isAuth)
+  console.log(isAuth);
   return (
     <div>
       <Navbar
@@ -39,9 +39,9 @@ const Navibar = ({
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          {/* <Link className={`${theme}`} to="/products">
+          <Link className={`${theme}`} to="/products">
             Products
-          </Link> */}
+          </Link>
           <Link className={`${theme}`} to="/prices">
             Crypto Prices
           </Link>
@@ -60,32 +60,31 @@ const Navibar = ({
             />
           </form> */}
 
-          {
-            isAuth ? (
-              <Button variant="secondary" id="responsive-navbar-nav">
-                  Logout
-            </Button>
-            ) : (
-
-              <>
-              <Button variant="secondary" id="responsive-navbar-nav">
-                Login
-            </Button>
-
-            <Button
-              variant="secondary"
-              id="responsive-navbar-nav"
-              disabled={btnDisable}
-            >
-              <Link className={`${theme}`} to="/signup">
-                Sign Up <FaUserPlus />
+          {isAuth ? (
+            <Button variant="secondary" id="responsive-navbar-nav">
+              <Link className={`${theme}`} to="/" onClick={handleLogOut}>
+                <FaUserCheck /> Log out
               </Link>
             </Button>
+          ) : (
+            <>
+              <Button variant="secondary" id="responsive-navbar-nav">
+                <Link className={`${theme}`} to="/login">
+                  <FaUserCheck /> Log in{" "}
+                </Link>
+              </Button>
+
+              <Button
+                variant="secondary"
+                id="responsive-navbar-nav"
+                disabled={btnDisable}
+              >
+                <Link className={`${theme}`} to="/signup">
+                  Sign up <FaUserPlus />
+                </Link>
+              </Button>
             </>
-            )
-          }
-
-
+          )}
         </Navbar.Collapse>
       </Navbar>
     </div>

@@ -33,14 +33,14 @@ const Price = () => {
 
   const numPrecision = (num) => {
     console.log(num.toFixed(2));
-    if(num.toFixed(2) === '0.00') {
+    if (num.toFixed(2) === "0.00") {
       console.log("here");
-      return (num.toPrecision(2));
+      return num.toPrecision(2);
     } else {
-      return numberWithCommas(num.toFixed(2))
+      return numberWithCommas(num.toFixed(2));
     }
-  }
-  
+  };
+
   return (
     <>
       <div className={`pricePage ${theme}`}>
@@ -51,6 +51,7 @@ const Price = () => {
         <table>
           <thead>
             <tr>
+              <th>Rank</th>
               <th>Crypto Name</th>
               <th>Price</th>
               <th>Change</th>
@@ -62,6 +63,7 @@ const Price = () => {
           {popularCoin.map((coin, index) => (
             <tbody>
               <tr key={index}>
+                <td>{index + 1}</td>
                 <td>
                   {" "}
                   <img src={coin.image} alt={coin.name} />{" "}
@@ -84,9 +86,7 @@ const Price = () => {
                       : { color: "red" }
                   }
                 >
-                  <strong>
-                    {numPrecision(coin.percentPriceChange24Hr)}%
-                  </strong>
+                  <strong>{numPrecision(coin.percentPriceChange24Hr)}%</strong>
                 </td>
                 <td>{numberWithCommas(coin.marketCap)}</td>
               </tr>

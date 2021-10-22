@@ -63,10 +63,10 @@
 .mainLogo {
   padding-left: 150px;
 }
-nav {
-  display: flex;
+
+.navbar {
   align-items: center;
-  padding: 0 auto;
+  padding: 0 3vh;
 }
 
 nav img {
