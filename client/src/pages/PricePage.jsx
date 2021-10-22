@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import ThemeContext from "../ThemeContext";
 import { SiBitcoinsv } from "react-icons/si";
+import { Button } from "react-bootstrap";
 
 const Price = () => {
   const [popularCoin, setPopularCoin] = useState([]);
@@ -57,6 +58,7 @@ const Price = () => {
               <th>Change</th>
               <th>24h %</th>
               <th>Market Cap</th>
+              <th>Trade Now</th>
             </tr>
           </thead>
 
@@ -89,6 +91,13 @@ const Price = () => {
                   <strong>{numPrecision(coin.percentPriceChange24Hr)}%</strong>
                 </td>
                 <td>{numberWithCommas(coin.marketCap)}</td>
+                <td>
+                  <Button size="md" variant="secondary">
+                    <Link style={{ textDecoration: "none" }} to="/login">
+                      Buy / Sell
+                    </Link>
+                  </Button>
+                </td>
               </tr>
             </tbody>
           ))}

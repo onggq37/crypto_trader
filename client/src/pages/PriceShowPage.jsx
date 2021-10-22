@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Col, Row, Card } from "react-bootstrap";
+import { Button, Container, Col, Row, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import LineChart from "../components/LineChart";
 import ThemeContext from "../ThemeContext";
 
@@ -21,7 +22,7 @@ const PriceShowPage = (props) => {
     // console.log(`target: ${targetSymbol}`);
 
     const getCoinProperties = async () => {
-      const res = await fetch (`/api/prices/${targetSymbol}`, {
+      const res = await fetch(`/api/prices/${targetSymbol}`, {
         method: "GET",
         headers: {
           "content-type": "application/json",
@@ -34,13 +35,13 @@ const PriceShowPage = (props) => {
         // console.log(payload);
         setCryptoPrice(payload.currentPrice);
         setCryptoName(payload.name);
-        setDescription(payload.description)
+        setDescription(payload.description);
         setPriceChange(payload.priceChange60d);
         setChartData(payload.data90d);
       } else {
         console.error("Server Error");
       }
-    }
+    };
 
     getCoinProperties();
   }, []);
@@ -68,6 +69,11 @@ const PriceShowPage = (props) => {
                 <p>
                   <div dangerouslySetInnerHTML={{ __html: description }} />
                 </p>
+                <Button size="md" variant="secondary">
+                  <Link style={{ textDecoration: "none" }} to="/login">
+                    Buy {cryptoName} Now
+                  </Link>
+                </Button>
               </Card.Body>
             </Card>
           </Col>
