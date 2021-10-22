@@ -4,10 +4,26 @@ import DonutChart from "../components/DonutChart";
 import BarChart from "../components/BarChart";
 import { Container, Col, Row, Card } from "react-bootstrap";
 import ThemeContext from "../ThemeContext";
+import { useHistory } from "react-router-dom";
 
-const BalancePage = ( { balance } ) => {
+
+const BalancePage = ( { transactionHistory } ) => {
   const { theme } = useContext(ThemeContext);
 
+  const numberWithCommas = (num) => {
+    if (!num) return 
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  const numPrecision = (num) => {
+    if (!num) return 
+    if (num.toFixed(2) === "0.00") {
+      return num.toPrecision(2);
+    } else {
+      return numberWithCommas(num.toFixed(2));
+    }
+  };
+  
   return (
     <>
     <div>
@@ -16,29 +32,26 @@ const BalancePage = ( { balance } ) => {
           <Col>
             <Card className={`walletCard ${theme}`}>
               <Card.Body>
-                <h1>Your Account Balances</h1>
-                <h3>Summary at a glance</h3>
+                <h1>Transaction History</h1>
                 <table>
                   <thead>
                     <tr>
                       <th>Coin Currency Pairing</th>
+                      <th>Transaction Type</th>
+                      <th>Individual amount (USD)</th>
                       <th>Quantity</th>
-                      <th>Initial cost price</th>
-                      <th>Current coin price</th>
-                      <th>Profit and Loss</th>
-                      <th>% profit / loss</th>
+                      <th>Gross Amount (USD)</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                  {balance.map((summary, index) => (
+                  {transactionHistory.map((summary, index) => (
                         <tr key={index}>
-                          <td><img src={summary.coinImageUrl} />{"  "}{summary.coinSymbol}</td>
-                          <td>{summary.currentCoinsOwned}</td>
-                          <td>{summary.costBase}</td>
-                          <td>{summary.currentCoinPrice}</td>
-                          <td style = {summary.profitAndLoss > 0 ? {color: "green"} : {color: "red"}} >{summary.profitAndLoss}</td>
-                          <td style = {summary.percentage > 0 ? {color: "green"} : {color: "red"}} >{summary.percentage}</td>
+                          <td>{summary.coinCurrencyPair}</td>
+                          <td>{summary.transType}</td>
+                          <td>{numPrecision(summary.individualAmount)}</td>
+                          <td>{summary.quantity}</td>
+                          <td>{numPrecision(summary.grossAmount)}</td>
                         </tr>
                     ))}
                   </tbody>
