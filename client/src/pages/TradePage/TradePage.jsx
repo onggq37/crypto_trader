@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Col, Row, Card, Tab, Tabs } from "react-bootstrap";
+import { Link, useParams } from "react-router-dom";
+import { Container, Col, Row, Card, Tab, Tabs, Button } from "react-bootstrap";
 import LineChart from "../../components/LineChart";
 import ThemeContext from "../../ThemeContext";
 import BuyPage from "./BuyPage";
 import SellPage from "./SellPage";
+import TransactionPage from "../TransactionPage";
 
 const PriceShowPage = (props) => {
   const [key, setKey] = useState("Buy");
@@ -73,6 +74,13 @@ const PriceShowPage = (props) => {
                 </Tabs>
               </Card.Body>
             </Card>
+            <br />
+            <Card className={`walletCard ${theme}`}>
+              <Card.Img id="icon" />
+              <Card.Body>
+                <TransactionPage />
+              </Card.Body>
+            </Card>
           </Col>
           <Col>
             <Card className={`showPricePage ${theme}`}>
@@ -87,6 +95,19 @@ const PriceShowPage = (props) => {
                   ${priceChange}
                 </p>
                 <LineChart chartData={chartData} coinName={cryptoName} />
+              </Card.Body>
+            </Card>
+            <Card className={`walletCard ${theme}`}>
+              <Card.Img id="icon" />
+              <Card.Body>
+                <Button size="md" variant="secondary">
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={"/price/" + targetSymbol}
+                  >
+                    Back
+                  </Link>
+                </Button>
               </Card.Body>
             </Card>
           </Col>

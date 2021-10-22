@@ -34,7 +34,6 @@ const BarChart = () => {
                 options={options}
                 series={series}
                 type="bar"
-                width="500"
                 height="400"
               />
             </Card.Body>
