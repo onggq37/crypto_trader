@@ -93,7 +93,7 @@ const Price = () => {
                 <td>{numberWithCommas(coin.marketCap)}</td>
                 <td>
                   <Button size="md" variant="secondary">
-                    <Link style={{ textDecoration: "none" }} to="/login">
+                    <Link style={{ textDecoration: "none" }} to="/trade">
                       Buy / Sell
                     </Link>
                   </Button>
