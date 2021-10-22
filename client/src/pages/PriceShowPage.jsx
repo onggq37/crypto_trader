@@ -5,9 +5,7 @@ import { Link } from "react-router-dom";
 import LineChart from "../components/LineChart";
 import ThemeContext from "../ThemeContext";
 
-
-
-const PriceShowPage = (props) => {
+const PriceShowPage = ({ isAuth }) => {
   const [cryptoPrice, setCryptoPrice] = useState();
   const [cryptoName, setCryptoName] = useState();
   const [priceChangePercent, setPriceChangePercent] = useState();
@@ -92,14 +90,22 @@ const PriceShowPage = (props) => {
                   <div dangerouslySetInnerHTML={{ __html: description }} />
                 </p>
 
-                <Button size="md" variant="secondary">
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={"/trade/" + targetSymbol}
-                  >
-                    Go Trade Now!
-                  </Link>
-                </Button>
+                {isAuth ? (
+                  <Button size="md" variant="secondary">
+                    <Link
+                      style={{ textDecoration: "none" }}
+                      to={"/trade/" + targetSymbol}
+                    >
+                      Go Trade Now!
+                    </Link>
+                  </Button>
+                ) : (
+                  <Button size="md" variant="secondary">
+                    <Link style={{ textDecoration: "none" }} to={"/login"}>
+                      Login to Trade
+                    </Link>
+                  </Button>
+                )}
               </Card.Body>
             </Card>
           </Col>

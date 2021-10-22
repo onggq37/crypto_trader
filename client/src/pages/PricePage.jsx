@@ -110,7 +110,7 @@ const Price = ({ isAuth }) => {
                   ) : (
                     <Button size="md" variant="secondary">
                       <Link style={{ textDecoration: "none" }} to={"/login"}>
-                        Trade
+                        Login to Trade
                       </Link>
                     </Button>
                   )}
