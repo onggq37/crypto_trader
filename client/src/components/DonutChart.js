@@ -24,7 +24,6 @@ const DonutChart = () => {
                 options={options}
                 series={series}
                 type="donut"
-                width="500"
                 height="400"
               />
             </Card.Body>

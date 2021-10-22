@@ -2,8 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import ThemeContext from "../ThemeContext";
 import { SiBitcoinsv } from "react-icons/si";
+import { Button } from "react-bootstrap";
 
-const Price = () => {
+const Price = ({ isAuth }) => {
   const [popularCoin, setPopularCoin] = useState([]);
   const { theme } = useContext(ThemeContext);
 
@@ -32,15 +33,15 @@ const Price = () => {
   }, []);
 
   const numPrecision = (num) => {
-    console.log(num.toFixed(2));
-    if(num.toFixed(2) === '0.00') {
-      console.log("here");
-      return (num.toPrecision(2));
+    // console.log(num.toFixed(2));
+    if (num.toFixed(2) === "0.00") {
+      // console.log("here");
+      return num.toPrecision(2);
     } else {
-      return numberWithCommas(num.toFixed(2))
+      return numberWithCommas(num.toFixed(2));
     }
-  }
-  
+  };
+
   return (
     <>
       <div className={`pricePage ${theme}`}>
@@ -51,17 +52,20 @@ const Price = () => {
         <table>
           <thead>
             <tr>
+              <th>Rank</th>
               <th>Crypto Name</th>
               <th>Price</th>
-              <th>Change</th>
-              <th>24h %</th>
+              <th>24hr Change</th>
+              <th>% Change</th>
               <th>Market Cap</th>
+              <th>Trade Now</th>
             </tr>
           </thead>
 
           {popularCoin.map((coin, index) => (
             <tbody>
               <tr key={index}>
+                <td>{index + 1}</td>
                 <td>
                   {" "}
                   <img src={coin.image} alt={coin.name} />{" "}
@@ -75,7 +79,13 @@ const Price = () => {
                       : { color: "red" }
                   }
                 >
-                  <strong>${numPrecision(coin.priceChange24Hr)}</strong>
+                  <strong>
+                    {coin.priceChange24Hr > 0 ? (
+                      <div>${numPrecision(coin.priceChange24Hr)}</div>
+                    ) : (
+                        <div>-${numPrecision(Math.abs(coin.priceChange24Hr))}</div>
+                    )}
+                  </strong>
                 </td>
                 <td
                   style={
@@ -84,11 +94,27 @@ const Price = () => {
                       : { color: "red" }
                   }
                 >
-                  <strong>
-                    {numPrecision(coin.percentPriceChange24Hr)}%
-                  </strong>
+                  <strong>{numPrecision(coin.percentPriceChange24Hr)}%</strong>
                 </td>
                 <td>{numberWithCommas(coin.marketCap)}</td>
+                <td>
+                  {isAuth ? (
+                    <Button size="md" variant="secondary">
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={"/trade/" + coin.id}
+                      >
+                        Buy / Sell
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button size="md" variant="secondary">
+                      <Link style={{ textDecoration: "none" }} to={"/login"}>
+                        Login to Trade
+                      </Link>
+                    </Button>
+                  )}
+                </td>
               </tr>
             </tbody>
           ))}

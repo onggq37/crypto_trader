@@ -63,10 +63,13 @@
 .mainLogo {
   padding-left: 150px;
 }
-nav {
-  display: flex;
+
+.navbar {
   align-items: center;
-  padding: 0 auto;
+  padding: 0 3vh;
+  -webkit-box-shadow: 0 8px 10px -10px #999;
+  -moz-box-shadow: 0 8px 10px -10px #999;
+  box-shadow: 0 8px 10px -8px #999;
 }
 
 nav img {
@@ -202,7 +205,7 @@ table {
 td,
 th {
   padding: 8px;
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 td {
@@ -385,6 +388,19 @@ tr:hover {
   }
 }
 
+.trade {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+  padding: 0 80px;
+}
+
 .copyright {
   padding-bottom: 80px;
+}
+
+h5 {
+  padding-top: 10px;
+  font-style: italic;
+  font-family: cursive;
 }

@@ -8,8 +8,10 @@ const ProductPage = () => {
   return (
     <div className={`Login ${theme}`}>
       <h1>Our Products</h1>
-      <p>Sign up now to experience it yourself!</p>
-      <Button size="md" variant="info">
+
+      <h4>Sign up now to experience it yourself!</h4>
+      <br />
+      <Button size="md" variant="secondary">
         <Link style={{ "text-decoration": "none" }} to="/signup">
           Sign Up Now
         </Link>
