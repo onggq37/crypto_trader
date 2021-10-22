@@ -1,26 +1,57 @@
-import React, { useState, useContext } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  Form,
-  Tabs,
-  Tab,
-} from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { Container, Col, Row, Card, Tab, Tabs } from "react-bootstrap";
+import LineChart from "../../components/LineChart";
 import ThemeContext from "../../ThemeContext";
 import BuyPage from "./BuyPage";
-import CandleStickChart from "../../components/CandleStickChart";
 import SellPage from "./SellPage";
 
-const TradePage = () => {
-  const { theme } = useContext(ThemeContext);
+const PriceShowPage = (props) => {
   const [key, setKey] = useState("Buy");
+  const [cryptoPrice, setCryptoPrice] = useState();
+  const [cryptoName, setCryptoName] = useState();
+  const [priceChange, setPriceChange] = useState();
+  const [description, setDescription] = useState();
+  const [chartData, setChartData] = useState();
+  const { theme } = useContext(ThemeContext);
+  const param = useParams();
+  const targetSymbol = param.symbol;
+  // console.log(targetSymbol);
+
+  // To replace with CoinGecko API
+  useEffect(() => {
+    const targetSymbol = param.symbol;
+    // console.log(`target: ${targetSymbol}`);
+
+    const getCoinProperties = async () => {
+      const res = await fetch(`/api/prices/${targetSymbol}`, {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+        },
+      });
+
+      if (res.ok) {
+        const payload = await res.json();
+        // setPopularCoin(payload);
+        // console.log(payload);
+        setCryptoPrice(payload.currentPrice);
+        setCryptoName(payload.name);
+        setDescription(payload.description);
+        setPriceChange(payload.priceChange60d);
+        setChartData(payload.data90d);
+      } else {
+        console.error("Server Error");
+      }
+    };
+
+    getCoinProperties();
+  }, []);
+
   return (
-    <div className={`Login ${theme}`}>
-      <br />
-      <h3>Avaliable to Trade</h3> <br />
+    <div className={`walletPage ${theme}`}>
+      <h1>{cryptoName}</h1>
+      <p> Notional prices as of {new Date().toLocaleString()}</p>
       <Container>
         <Row xs={1} md={2}>
           <Col>
@@ -44,7 +75,20 @@ const TradePage = () => {
             </Card>
           </Col>
           <Col>
-            <CandleStickChart />
+            <Card className={`showPricePage ${theme}`}>
+              <Card.Body>
+                <h2>{cryptoName}</h2>
+                <h3 className="price">${cryptoPrice}</h3>
+                <p
+                  style={
+                    crypto.changes > 0 ? { color: "green" } : { color: "red" }
+                  }
+                >
+                  ${priceChange}
+                </p>
+                <LineChart chartData={chartData} coinName={cryptoName} />
+              </Card.Body>
+            </Card>
           </Col>
         </Row>
       </Container>
@@ -52,4 +96,4 @@ const TradePage = () => {
   );
 };
 
-export default TradePage;
+export default PriceShowPage;

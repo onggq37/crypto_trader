@@ -92,9 +92,7 @@ const App = () => {
               <Route path="/academy">
                 <AcademyPage />
               </Route>
-              <Route path="/trade">
-                <TradePage />
-              </Route>
+              <Route path="/trade/:symbol" component={TradePage} />
               <Route path="/login">
                 <LoginPage
                   setStatus={setStatus}

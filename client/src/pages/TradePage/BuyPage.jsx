@@ -8,17 +8,17 @@ const BuyPage = () => {
       <Form>
         <Form.Group size="lg" controlId="email">
           Order Type
-          <Form.Control type="text" placeholder="Email" />
+          <Form.Control type="text" placeholder="Limit" />
         </Form.Group>
         <br />
         <Form.Group size="lg" controlId="password">
           Price
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" placeholder="Price" />
         </Form.Group>
         <br />
         <Form.Group size="lg" controlId="password">
           Quantity
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" placeholder="Quantity" />
         </Form.Group>
         <Form.Group size="lg" controlId="password">
           <Form.Control type="password" placeholder="USD" />

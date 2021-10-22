@@ -69,9 +69,13 @@ const PriceShowPage = (props) => {
                 <p>
                   <div dangerouslySetInnerHTML={{ __html: description }} />
                 </p>
+
                 <Button size="md" variant="secondary">
-                  <Link style={{ textDecoration: "none" }} to="/login">
-                    Buy {cryptoName} Now
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={"/trade/" + targetSymbol}
+                  >
+                    Buy / Sell
                   </Link>
                 </Button>
               </Card.Body>
