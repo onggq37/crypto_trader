@@ -1,26 +1,35 @@
 import React from "react";
 import { Button, Form, Tabs, Tab } from "react-bootstrap";
+import Select from "react-select";
 
 const SellPage = () => {
+  const options = [
+    { value: "limit", label: "Limit" },
+    { value: "market", label: "Market" },
+  ];
   return (
     <div>
       <Form>
         <Form.Group size="lg" controlId="email">
           Order Type
-          <Form.Control type="text" placeholder="Email" />
+          <Select options={options} />
+          {/* <Form.Control type="text" placeholder="Limit" /> */}
         </Form.Group>
         <br />
         <Form.Group size="lg" controlId="password">
           Price
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="text" placeholder="Price" />
         </Form.Group>
         <br />
         <Form.Group size="lg" controlId="password">
           Quantity
-          <Form.Control type="password" placeholder="Password" />
+          <Form.Control type="password" placeholder="Quantity" />
         </Form.Group>
         <Form.Group size="lg" controlId="password">
-          <Form.Control type="password" placeholder="USD" />
+          <Form.Control
+            type="password"
+            placeholder="Total = Price x Quantity"
+          />
         </Form.Group>
         <br />
         {/* to change the route to 'api/user/wallet */}

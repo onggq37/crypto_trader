@@ -75,7 +75,7 @@ const PriceShowPage = (props) => {
                     style={{ textDecoration: "none" }}
                     to={"/trade/" + targetSymbol}
                   >
-                    Buy / Sell
+                    Go Trade Now!
                   </Link>
                 </Button>
               </Card.Body>
