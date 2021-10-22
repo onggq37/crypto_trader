@@ -6,7 +6,6 @@ import ThemeContext from "../ThemeContext";
 import { FaUserCheck, FaUserPlus } from "react-icons/fa";
 
 const Navibar = ({
-  status,
   setStatus,
   setIsAuth,
   btnDisable,
@@ -61,11 +60,14 @@ const Navibar = ({
           </form> */}
 
           {isAuth ? (
-            <Button variant="secondary" id="responsive-navbar-nav">
-              <Link className={`${theme}`} to="/" onClick={handleLogOut}>
-                <FaUserCheck /> Log out
-              </Link>
-            </Button>
+            <>
+              <Button variant="secondary" id="responsive-navbar-nav">
+                <Link className={`${theme}`} to="/" onClick={handleLogOut}>
+                  <FaUserCheck /> Log out
+                </Link>
+              </Button>
+              <h5 className={`${theme}`}>Welcome Back!</h5>
+            </>
           ) : (
             <>
               <Button variant="secondary" id="responsive-navbar-nav">

@@ -28,6 +28,10 @@ const SellPage = ({ cryptoPrice }) => {
     setLimitQty(e.target.value);
   };
 
+  const handleSell = () => {
+    alert("Confirm Sell Order?");
+  };
+
   return (
     <div className="trade">
       <Form>
@@ -69,7 +73,7 @@ const SellPage = ({ cryptoPrice }) => {
               <Form.Control
                 type="number"
                 placeholder="Total"
-                value={limitPrice * limitQty}
+                value={(limitPrice * limitQty).toFixed(2)}
               />
             </Form.Group>
             <br />
@@ -101,13 +105,18 @@ const SellPage = ({ cryptoPrice }) => {
               <Form.Control
                 type="number"
                 placeholder="Total"
-                value={cryptoPrice * mktQty}
+                value={(cryptoPrice * mktQty).toFixed(2)}
               />
             </Form.Group>
             <br />
           </>
         )}
-        <Button variant="secondary" size="md" type="submit">
+        <Button
+          variant="secondary"
+          size="md"
+          type="submit"
+          onClick={handleSell}
+        >
           SELL
         </Button>
       </Form>

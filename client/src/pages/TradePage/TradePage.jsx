@@ -17,7 +17,7 @@ const TradePage = (props) => {
   const [chartData, setChartData] = useState();
   const { theme } = useContext(ThemeContext);
   const param = useParams();
-  const targetSymbol = param.symbol;
+  // const targetSymbol = param.symbol;
   // console.log(targetSymbol);
 
   // To replace with CoinGecko API
@@ -70,7 +70,7 @@ const TradePage = (props) => {
                     <BuyPage cryptoPrice={cryptoPrice} />
                   </Tab>
                   <Tab eventKey="Sell" title="Sell">
-                    <SellPage />
+                    <SellPage cryptoPrice={cryptoPrice} />
                   </Tab>
                 </Tabs>
               </Card.Body>
@@ -102,10 +102,7 @@ const TradePage = (props) => {
               <Card.Img id="icon" />
               <Card.Body>
                 <Button size="md" variant="secondary">
-                  <Link
-                    style={{ textDecoration: "none" }}
-                    to={"/price/" + targetSymbol}
-                  >
+                  <Link style={{ textDecoration: "none" }} to={"/prices"}>
                     Back
                   </Link>
                 </Button>
