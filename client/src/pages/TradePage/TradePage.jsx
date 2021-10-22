@@ -7,12 +7,13 @@ import BuyPage from "./BuyPage";
 import SellPage from "./SellPage";
 import TransactionPage from "../TransactionPage";
 
-const PriceShowPage = (props) => {
+const TradePage = (props) => {
   const [key, setKey] = useState("Buy");
   const [cryptoPrice, setCryptoPrice] = useState();
   const [cryptoName, setCryptoName] = useState();
   const [priceChange, setPriceChange] = useState();
   const [description, setDescription] = useState();
+
   const [chartData, setChartData] = useState();
   const { theme } = useContext(ThemeContext);
   const param = useParams();
@@ -35,7 +36,7 @@ const PriceShowPage = (props) => {
       if (res.ok) {
         const payload = await res.json();
         // setPopularCoin(payload);
-        // console.log(payload);
+        console.log(payload);
         setCryptoPrice(payload.currentPrice);
         setCryptoName(payload.name);
         setDescription(payload.description);
@@ -63,10 +64,10 @@ const PriceShowPage = (props) => {
                   id="controlled-tab-example"
                   activeKey={key}
                   onSelect={(k) => setKey(k)}
-                  className="mb-3"
+                  className="mb-3 trade"
                 >
                   <Tab eventKey="Buy" title="Buy">
-                    <BuyPage />
+                    <BuyPage cryptoPrice={cryptoPrice} />
                   </Tab>
                   <Tab eventKey="Sell" title="Sell">
                     <SellPage />
@@ -117,4 +118,4 @@ const PriceShowPage = (props) => {
   );
 };
 
-export default PriceShowPage;
+export default TradePage;

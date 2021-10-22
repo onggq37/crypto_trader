@@ -388,6 +388,12 @@ tr:hover {
   }
 }
 
+.trade {
+  font-size: 18px;
+  font-weight: 500;
+  text-align: left;
+  padding: 0 80px;
+}
 .copyright {
   padding-bottom: 80px;
 }
