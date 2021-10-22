@@ -86,13 +86,17 @@ const App = () => {
                 <ProductPage />
               </Route>
               <Route path="/prices">
-                <PricePage />
+                <PricePage isAuth={isAuth} />
               </Route>
-              <Route path="/price/:symbol" component={PriceShowPage} />
+              <Route path="/price/:symbol">
+                <PriceShowPage />
+              </Route>
               <Route path="/academy">
                 <AcademyPage />
               </Route>
-              <Route path="/trade/:symbol" component={TradePage} />
+              <Route path="/trade/:symbol">
+                <TradePage isAuth={isAuth} />
+              </Route>
               <Route path="/login">
                 <LoginPage
                   setStatus={setStatus}

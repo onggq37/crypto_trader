@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import "./writePost.css";
+import "./editPost.css";
 import axios from "axios";
 
-const WritePost = () => {
+const EditPost = () => {
   // const handleSubmit = async (e) => {
   //   const [title, setTitle] = useState("");
   //   const [desc, setDesc] = useState("");
@@ -64,4 +64,4 @@ const WritePost = () => {
     </div>
   );
 };
-export default WritePost;
+export default EditPost;

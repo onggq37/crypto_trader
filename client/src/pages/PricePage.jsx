@@ -4,7 +4,7 @@ import ThemeContext from "../ThemeContext";
 import { SiBitcoinsv } from "react-icons/si";
 import { Button } from "react-bootstrap";
 
-const Price = () => {
+const Price = ({ isAuth }) => {
   const [popularCoin, setPopularCoin] = useState([]);
   const { theme } = useContext(ThemeContext);
 
@@ -92,14 +92,22 @@ const Price = () => {
                 </td>
                 <td>{numberWithCommas(coin.marketCap)}</td>
                 <td>
-                  <Button size="md" variant="secondary">
-                    <Link
-                      style={{ textDecoration: "none" }}
-                      to={"/trade/" + coin.id}
-                    >
-                      Buy / Sell
-                    </Link>
-                  </Button>
+                  {isAuth ? (
+                    <Button size="md" variant="secondary">
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        to={"/trade/" + coin.id}
+                      >
+                        Buy / Sell
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button size="md" variant="secondary">
+                      <Link style={{ textDecoration: "none" }} to={"/login"}>
+                        Trade
+                      </Link>
+                    </Button>
+                  )}
                 </td>
               </tr>
             </tbody>
