@@ -5,7 +5,7 @@ import Withdrawal from "./Withdrawal";
 import ThemeContext from "../ThemeContext";
 import TransferHistory from "./TransferHistory";
 
-const TransferPage = () => {
+const TransferPage = ({ transferHistory }) => {
   const [key, setKey] = useState("balances");
   const { theme } = useContext(ThemeContext);
   return (
@@ -34,7 +34,7 @@ const TransferPage = () => {
         </Col>
       </Row>
       <br />
-      <TransferHistory />
+      <TransferHistory transferHistory = { transferHistory } />
     </Container>
   );
 };

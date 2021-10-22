@@ -21,7 +21,9 @@ async function getCoinPrice(coinName) { // coins that can be searched on: bitcoi
     if (fetchOneCoin.success) {
         const fetchCoinPrice = fetchOneCoin.data.market_data.current_price.usd
         const fetchCoinSymbol = fetchOneCoin.data.symbol.toUpperCase()
-        objReturned['result'] = [fetchCoinSymbol, fetchCoinPrice]
+        const fetchCoinImg = fetchOneCoin.data.image.thumb
+        objReturned['result'] = [fetchCoinSymbol, fetchCoinPrice, fetchCoinImg]
+        // console.log(objReturned)
         // res.send (`${req.body.coin} (${fetchCoinSymbol}) price: USD ${fetchCoinPrice}`)
     } else {
         objReturned['result'] = null
@@ -56,16 +58,12 @@ router.get("/getAllCryptoData", async (req, res) => {
         // console.log(allCoinsApi.data[0].market_data);
         for (const obj of allCoinsApi.data) {
             const coinData = {
+                id: obj.id,
                 symbol: obj.symbol,
                 name: obj.name,
                 image: obj.image.small,
                 price: obj.market_data.current_price.usd,
-                priceChange24Hr: obj.market_data.price_change_24h,
-                percentPriceChange24Hr: obj.market_data.price_change_percentage_24h,
-                marketCap: obj.market_data.market_cap.usd
             }
-
-            console.log(coinData)
         }
     } catch (e) {
         console.error(e.message);
@@ -132,37 +130,37 @@ router.use(auth)
 
 router.get("/", async (req, res) => {
     let data = await User.findById(req.user.id).select("-password");
-
-    ///// test start
-
-    // let data = await User.findOne({email: req.body.email})
-    // console.log(data)
-
-    ///// test end
-
     data = data.ownedAssetsQtyAndCostBase
-
     const summary = []
-
-
+    let count = 0
     for (const key in data) {
-        summary['usd'] = {coinSymbol: "USD", currentCoinsOwned: "-", costBase: numeralFunc(data.usd), currentCoinPrice: "-", profitAndLoss: "-", percentage: "-"}
-        if (key !== 'usd') {
-            const coinInfo = await getCoinPrice(key)
 
-            const coinSymbol = coinInfo.result[0] + "USD"
-            const currentCoinsOwned = data[key][0]
-            const costBase = data[key][1]
-            const currentCoinPrice = coinInfo.result[1] * currentCoinsOwned
-            const profitAndLoss = currentCoinPrice - costBase
+        if (key === 'usd' && count === 0) {
+            summary.push({coinSymbol: "USD", currentCoinsOwned: "", costBase: numeralFunc(data.usd), currentCoinPrice: "", profitAndLoss: "", percentage: ""})
+            count += 1
+        } else {
 
-            summary.push({coinSymbol,
-                currentCoinsOwned: String(roundNum(currentCoinsOwned,4)),
-                costBase: numeralFunc(costBase), 
-                currentCoinPrice: numeralFunc(currentCoinPrice), 
-                profitAndLoss: numeralFunc(profitAndLoss), 
-                percentage: String(roundNum(profitAndLoss/costBase*100, 4))
-            })
+            if (data[key][0]) {
+                const coinInfo = await getCoinPrice(key)
+                const coinSymbol = coinInfo.result[0] + "USD"
+                const currentCoinsOwned = data[key][0]
+                const costBase = data[key][1]
+                const coinImageUrl = coinInfo.result[2]
+                const currentCoinPrice = coinInfo.result[1] * currentCoinsOwned
+                const profitAndLoss = currentCoinPrice - costBase
+
+                summary.push({coinSymbol,
+                    currentCoinsOwned: String(roundNum(currentCoinsOwned,4)),
+                    costBase: numeralFunc(costBase), 
+                    coinImageUrl,
+                    currentCoinPrice: numeralFunc(currentCoinPrice), 
+                    profitAndLoss: numeralFunc(profitAndLoss), 
+                    percentage: String(roundNum(profitAndLoss/costBase*100, 4))
+                })
+
+                // console.log(summary)
+            }
+
         }
     }
     res.json(summary)
@@ -176,24 +174,24 @@ router.get("/transactionhistory", async (req, res) => {
     const email = data.email
     data = await TransactionHistory.find({email: email})
     summary = []
-    for (const element of data) {
-        const cloneElement = element
-        if (cloneElement["createdAt"]) {
-            console.log(cloneElement["createdAt"])
-        }
-    }
-
-    // data.map(element => element.createdAt ? console.log(true) : console.log(false))
     res.json(data)
 })
 
-//// WIP
 // Transfer history main page
 
 router.get("/transferhistory", async (req, res) => {
     let data = await User.findById(req.user.id).select("-password");
     const email = data.email
     data = await TransferHistory.find({email: email})
+    res.json(data)
+})
+
+// Realised PnL main page
+
+router.get("/realisedpnl", async (req, res) => {
+    let data = await User.findById(req.user.id).select("-password");
+    const email = data.email
+    data = await RealisedPNL.find({email: email})
     res.json(data)
 })
 
@@ -217,10 +215,10 @@ router.post("/topup", async (req, res) => {
             }
         })
         await TransferHistory.create({email: mainData.email, transType: "deposit", amount: amount})
-        res.send("ok")
+        res.json({success: true, message: `Successfully topped up USD ${amount}`})
     } catch (e) {
         console.error(e.message);
-        res.status(500).send("Server error");
+        res.status(500).send("Top up failed. Please try again.");
     }
 })
 
@@ -242,13 +240,13 @@ router.post("/withdraw", async (req, res) => {
                 }
             })
             await TransferHistory.create({email: mainData.email, transType: "withdraw", amount: amount})
-            res.send(`amount withdrawn = ${amount}. Balance = ${
+            res.json({success: true, amount, data: data.usd, message: `amount withdrawn successfully = ${amount}. USD Balance left in account = ${
                 data.usd
-            }`)
+            }`})
         } else {
-            res.send(`intended withdrawal amount exceeds balance. amount withdrawn = ${amount}. Balance = ${
+            res.json({success: false, typeOfError: 'insufficientBalance', message: `intended withdrawal amount exceeds balance. amount withdrawn = ${amount}. Balance = ${
                 data.usd
-            }`)
+            }`})
         }
 
     } catch (e) {
@@ -262,9 +260,10 @@ router.post("/withdraw", async (req, res) => {
 
 router.post("/buy", auth, async (req, res) => {
     try { // obtain user assets (i.e. entire portfolio) prior to purchase
-        const { coin, quantity} = req.body
+        let { coin, quantity} = req.body
         const userData = await User.findById(req.user.id).select("-password");
         const userAssets = userData.ownedAssetsQtyAndCostBase
+        quantity = Number(quantity)
 
         // obtain stock price and determine total cost of purchasing the desired coin
 
@@ -273,6 +272,9 @@ router.post("/buy", auth, async (req, res) => {
             const coinSymbol = objReturned.result[0]
             const coinPrice = objReturned.result[1]
             const totalPrice = coinPrice * quantity
+
+            coin = coin.toLowerCase()
+            coin = coin.replace(" ","")
 
             // res.send (`coin purchase: ${coinSymbol}, price: ${coinPrice}, quantity: ${quantity}, total price: ${totalPrice}`)
             // res.send (`coin purchase: ${objReturned.result[0]}, price: ${objReturned.result[1]}, quantity: ${quantity}`)
@@ -289,13 +291,12 @@ router.post("/buy", auth, async (req, res) => {
                     userAssets[coin] = [quantity, totalPrice]
                 }
 
-                // res.send (`coin purchase: ${coinSymbol}, price: ${coinPrice}, quantity: ${quantity}, total price: ${totalPrice}, current balance: ${userAssets.usd}, net usd: ${userAssets.usd - totalPrice}`)
             } else {
-                res.send(`insufficient funds. coin purchase: ${coinSymbol}, price: ${coinPrice}, quantity: ${quantity}, total price: ${totalPrice}, current balance: ${
+                res.json({success: false, message: `insufficient funds. coin purchase: ${coinSymbol}, price: ${coinPrice}, quantity: ${quantity}, total price: ${totalPrice}, current balance: ${
                     userAssets.usd
                 }, shortfall: ${
                     totalPrice - userAssets.usd
-                }`)
+                }`})
                 return
             }
 
@@ -320,6 +321,9 @@ router.post("/buy", auth, async (req, res) => {
                 quantity: quantity,
                 grossAmount: totalPrice
             })
+
+            res.json({success: true, message: `coin purchase: ${coinSymbol}, price: ${coinPrice}, quantity: ${quantity}, total price: ${totalPrice}, current balance: ${userAssets.usd}, net usd: ${userAssets.usd - totalPrice}`})
+
         } else {
             res.send("invalid coin")
             return
@@ -336,11 +340,16 @@ router.post("/buy", auth, async (req, res) => {
 
 router.post("/sell", auth, async (req, res) => {
     try { // obtain user assets (i.e. entire portfolio) prior to purchase
-        const { coin, quantity} = req.body
+        let { coin, quantity} = req.body
         const userData = await User.findById(req.user.id).select("-password");
         const userAssets = userData.ownedAssetsQtyAndCostBase
         let profitAndLoss = 0
         let costBaseReduction = 0
+
+        console.log(coin)
+        coin = coin.toLowerCase()
+        coin = coin.replace(" ","")
+        console.log(coin)
 
         // obtain stock price and determine current market price of coin to be sold
 
@@ -355,32 +364,26 @@ router.post("/sell", auth, async (req, res) => {
 
             // evaluation - if number of existing coin is more than or equal to number of coins intended to be sold, execute operation. Otherwise, reject operation.
 
-            // WIP
-
             const numberOfExistingCoin = userAssets[coin][0]
-
+            
             if (numberOfExistingCoin >= quantity) {
                 userAssets.usd += totalPrice
                 userAssets[coin][0] -= quantity
                 costBaseReduction = quantity / numberOfExistingCoin * userAssets[coin][1]
                 userAssets[coin][1] -= costBaseReduction
-                profitAndLoss = totalPrice - costBaseReduction
-                res.send(`Gross sale: USD ${totalPrice}, cost base reduction: USD ${
-                    Math.round(costBaseReduction * 100) / 100
-                }, P&L: USD ${
-                    Math.round(profitAndLoss * 100) / 100
-                }`)
+                profitAndLoss = totalPrice - costBaseReduction          
+                console.log(userAssets)      
             } else {
-                res.send(`insufficient coins to sell. existing quantity owned: ${numberOfExistingCoin}, intended quantity to be sold: ${quantity}}, shortfall: ${
+                res.json({success: false, message: `insufficient coins to sell. existing quantity owned: ${numberOfExistingCoin}, intended quantity to be sold: ${quantity}}, shortfall: ${
                     quantity - numberOfExistingCoin
-                }`)
-                return
+                }`})
+                
             }
 
             // updating of cost base in "Users" database (i.e. ownedAssetsQtyAndCostBase portfolio)
 
             await User.updateOne({
-                email: email
+                email: userData.email
             }, {
                 $set: {
                     ownedAssetsQtyAndCostBase: userAssets
@@ -415,11 +418,14 @@ router.post("/sell", auth, async (req, res) => {
               percentagePnL: profitAndLoss / costBaseReduction,
             })
 
-            res.send("ok")
-            return
+            res.json({success: true, message: `Gross sale: USD ${totalPrice}, Initial cost: USD ${
+                Math.round(costBaseReduction * 100) / 100
+            }, P&L: USD ${
+                Math.round(profitAndLoss * 100) / 100
+            }`})
 
         } else {
-            res.send("invalid coin")
+            res.json({success: false, typeOfError: 'falseCoin', message: 'Invalid coin'})
             return
         }
     } catch (e) {

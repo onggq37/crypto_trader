@@ -2,18 +2,43 @@ import React, { memo, useContext, useState } from "react";
 import { Col, Row, Card, Button, Form } from "react-bootstrap";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 import ThemeContext from "../ThemeContext";
+import { useHistory } from "react-router-dom";
 
-const Withdrawal = memo(() => {
+const Deposit = memo(() => {
   const { theme } = useContext(ThemeContext);
-  const [display, setDisplay] = useState("Select here");
+  const [topUpAmount, setTopUpAmount] = useState(0);
+  const [message, setMessage] = useState(""); 
+  const history = useHistory();
 
-  const handleSelect = (e) => {
-    console.log(e);
-    setDisplay("Selected: " + e);
+  const handleTopUpAmount = (e) => {
+    setTopUpAmount(e.target.value);
   };
 
-  const handleSubmit = () => {
-    alert("submitted");
+  const handleDeposit = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token")
+    const response = await fetch("/api/wallet/withdraw", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-auth-token": `${token}`
+      },
+      body: JSON.stringify({
+        amount: topUpAmount,
+      }),
+    });
+
+    const result = await response.json();
+    console.log(result)
+    //To do: loop through the error and display it
+    if (!result.success) {
+      setMessage(result.message);
+      return alert(`${result.message}`);
+    } else {
+      history.push("/prices");
+      setMessage(result.message)
+      return alert(`${result.message}`);
+    }
   };
   return (
     <>
@@ -24,33 +49,10 @@ const Withdrawal = memo(() => {
           <Card className={`walletCard ${theme}`}>
             <Card.Img id="icon" />
             <Card.Body className="transferFunds">
-              <h4>1: Select Your Currencies</h4>
-              <DropdownButton
-                id="dropdown-button-dark-example2"
-                variant="secondary"
-                menuVariant="dark"
-                title={display}
-                className="mt-2"
-                onSelect={handleSelect}
-              >
-                <Dropdown.Item disabled="true">Fiat Currencies</Dropdown.Item>
-                <Dropdown.Divider />
-                {["SGD", "USD", "EUR", "YEN"].map((item, idx) => (
-                  <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-                ))}
-                <Dropdown.Divider />
-                <Dropdown.Item disabled="true">Crypto Currencies</Dropdown.Item>
-                <Dropdown.Divider />
-                {["BTC", "ETH", "ADA", "MATIC"].map((item, idx) => (
-                  <Dropdown.Item eventKey={item}>{item}</Dropdown.Item>
-                ))}
-              </DropdownButton>
-              <br />
-              <hr />
-              <h4>2: Enter Amount</h4>
-              <Form onSubmit={handleSubmit}>
+              <h4>1: Enter Amount</h4>
+              <Form onSubmit={handleDeposit}>
                 <Form.Group size="lg">
-                  <Form.Control type="text" placeholder="Amount" />
+                  <Form.Control type="number" placeholder="Amount" onChange={handleTopUpAmount}/>
                 </Form.Group>
                 <br />
                 <Button variant="secondary" size="md" type="submit">
@@ -59,16 +61,6 @@ const Withdrawal = memo(() => {
               </Form>
               <br />
               <hr />
-              <h4>3: Select Destination</h4>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group size="lg">
-                  <Form.Control type="text" placeholder="Destination" />
-                </Form.Group>
-                <br />
-                <Button variant="secondary" size="md" type="submit">
-                  Confirm
-                </Button>
-              </Form>
             </Card.Body>
           </Card>
         </Col>
@@ -77,4 +69,4 @@ const Withdrawal = memo(() => {
   );
 });
 
-export default Withdrawal;
+export default Deposit;

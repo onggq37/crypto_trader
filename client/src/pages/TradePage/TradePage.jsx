@@ -36,7 +36,7 @@ const TradePage = (props) => {
       if (res.ok) {
         const payload = await res.json();
         // setPopularCoin(payload);
-        console.log(payload);
+        // console.log(payload);
         setCryptoPrice(payload.currentPrice);
         setCryptoName(payload.name);
         setDescription(payload.description);
@@ -67,10 +67,10 @@ const TradePage = (props) => {
                   className="mb-3 trade"
                 >
                   <Tab eventKey="Buy" title="Buy">
-                    <BuyPage cryptoPrice={cryptoPrice} />
+                    <BuyPage cryptoName={cryptoName} cryptoPrice={cryptoPrice} />
                   </Tab>
                   <Tab eventKey="Sell" title="Sell">
-                    <SellPage cryptoPrice={cryptoPrice} />
+                    <SellPage cryptoName={cryptoName} cryptoPrice={cryptoPrice} />
                   </Tab>
                 </Tabs>
               </Card.Body>
