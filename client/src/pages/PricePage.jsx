@@ -83,9 +83,7 @@ const Price = ({ isAuth }) => {
                     {coin.priceChange24Hr > 0 ? (
                       <div>${numPrecision(coin.priceChange24Hr)}</div>
                     ) : (
-                      <div>
-                        -${numPrecision(Math.abs(coin.priceChange24Hr))}
-                      </div>
+                        <div>-${numPrecision(Math.abs(coin.priceChange24Hr))}</div>
                     )}
                   </strong>
                 </td>
