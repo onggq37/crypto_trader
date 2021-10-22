@@ -79,7 +79,13 @@ const Price = ({ isAuth }) => {
                       : { color: "red" }
                   }
                 >
-                  <strong>${numPrecision(coin.priceChange24Hr)}</strong>
+                  <strong>
+                    {coin.priceChange24Hr > 0 ? (
+                      <div>${numPrecision(coin.priceChange24Hr)}</div>
+                    ) : (
+                        <div>-${numPrecision(Math.abs(coin.priceChange24Hr))}</div>
+                    )}
+                  </strong>
                 </td>
                 <td
                   style={
