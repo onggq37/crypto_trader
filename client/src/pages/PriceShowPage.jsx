@@ -8,6 +8,7 @@ import ThemeContext from "../ThemeContext";
 const PriceShowPage = ({ isAuth }) => {
   const [cryptoPrice, setCryptoPrice] = useState();
   const [cryptoName, setCryptoName] = useState();
+  const [priceChangePercent, setPriceChangePercent] = useState();
   const [priceChange, setPriceChange] = useState();
   const [description, setDescription] = useState();
   const [chartData, setChartData] = useState();
@@ -15,6 +16,20 @@ const PriceShowPage = ({ isAuth }) => {
   const param = useParams();
   const targetSymbol = param.symbol;
   // console.log(targetSymbol);
+
+  const numberWithCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  
+  const numPrecision = (num) => {
+    // console.log(typeof(num));
+    if (num.toFixed(2) === "0.00") {
+      // console.log("here");
+      return num.toPrecision(2);
+    } else {
+      return numberWithCommas(num.toFixed(2));
+    }
+  };
 
   // To replace with CoinGecko API
   useEffect(() => {
@@ -31,13 +46,13 @@ const PriceShowPage = ({ isAuth }) => {
 
       if (res.ok) {
         const payload = await res.json();
-        // setPopularCoin(payload);
-        // console.log(payload);
-        setCryptoPrice(payload.currentPrice);
+        const valueChange = payload.currentPrice * (payload.priceChange60d/100);
+        setCryptoPrice(numPrecision(payload.currentPrice));
         setCryptoName(payload.name);
         setDescription(payload.description);
-        setPriceChange(payload.priceChange60d);
+        setPriceChangePercent(numPrecision(payload.priceChange60d));
         setChartData(payload.data90d);
+        setPriceChange(numPrecision(valueChange));
       } else {
         console.error("Server Error");
       }
@@ -45,6 +60,7 @@ const PriceShowPage = ({ isAuth }) => {
 
     getCoinProperties();
   }, []);
+
 
   return (
     <div className={`walletPage ${theme}`}>
@@ -59,10 +75,14 @@ const PriceShowPage = ({ isAuth }) => {
                 <h3 className="price">${cryptoPrice}</h3>
                 <p
                   style={
-                    crypto.changes > 0 ? { color: "green" } : { color: "red" }
+                    priceChangePercent > 0 ? { color: "green" } : { color: "red" }
                   }
                 >
-                  ${priceChange}
+                    {priceChangePercent > 0 ? (
+                      <div>+${priceChange} ({priceChangePercent}%)</div>
+                    ) : (
+                      <div>-${Math.abs(priceChange)} ({priceChangePercent}%)</div>
+                      )}
                 </p>
                 <LineChart chartData={chartData} coinName={cryptoName} />
                 <h2>About {cryptoName}</h2>

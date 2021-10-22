@@ -33,9 +33,9 @@ const Price = ({ isAuth }) => {
   }, []);
 
   const numPrecision = (num) => {
-    console.log(num.toFixed(2));
+    // console.log(num.toFixed(2));
     if (num.toFixed(2) === "0.00") {
-      console.log("here");
+      // console.log("here");
       return num.toPrecision(2);
     } else {
       return numberWithCommas(num.toFixed(2));
@@ -55,8 +55,8 @@ const Price = ({ isAuth }) => {
               <th>Rank</th>
               <th>Crypto Name</th>
               <th>Price</th>
-              <th>Change</th>
-              <th>24h %</th>
+              <th>24hr Change</th>
+              <th>% Change</th>
               <th>Market Cap</th>
               <th>Trade Now</th>
             </tr>
@@ -79,7 +79,13 @@ const Price = ({ isAuth }) => {
                       : { color: "red" }
                   }
                 >
-                  <strong>${numPrecision(coin.priceChange24Hr)}</strong>
+                  <strong>
+                    {coin.priceChange24Hr > 0 ? (
+                      <div>${numPrecision(coin.priceChange24Hr)}</div>
+                    ) : (
+                        <div>-${numPrecision(Math.abs(coin.priceChange24Hr))}</div>
+                    )}
+                  </strong>
                 </td>
                 <td
                   style={
