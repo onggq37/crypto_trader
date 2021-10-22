@@ -67,6 +67,9 @@
 .navbar {
   align-items: center;
   padding: 0 3vh;
+  -webkit-box-shadow: 0 8px 10px -10px #999;
+  -moz-box-shadow: 0 8px 10px -10px #999;
+  box-shadow: 0 8px 10px -8px #999;
 }
 
 nav img {
