@@ -10,8 +10,10 @@ import TransactionPage from "../TransactionPage";
 const TradePage = (props) => {
   const [key, setKey] = useState("Buy");
   const [cryptoPrice, setCryptoPrice] = useState();
+  const [cryptoPriceShow, setCryptoPriceShow] = useState();
   const [cryptoName, setCryptoName] = useState();
   const [priceChange, setPriceChange] = useState();
+  const [priceChangePercent, setPriceChangePercent] = useState();
   const [description, setDescription] = useState();
 
   const [chartData, setChartData] = useState();
@@ -19,7 +21,19 @@ const TradePage = (props) => {
   const param = useParams();
   // const targetSymbol = param.symbol;
   // console.log(targetSymbol);
+  const numberWithCommas = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
 
+  const numPrecision = (num) => {
+    // console.log(typeof(num));
+    if (num.toFixed(2) === "0.00") {
+      // console.log("here");
+      return num.toPrecision(2);
+    } else {
+      return numberWithCommas(num.toFixed(2));
+    }
+  };
   // To replace with CoinGecko API
   useEffect(() => {
     const targetSymbol = param.symbol;
@@ -37,11 +51,15 @@ const TradePage = (props) => {
         const payload = await res.json();
         // setPopularCoin(payload);
         // console.log(payload);
+        const valueChange =
+          payload.currentPrice * (payload.priceChange60d / 100);
         setCryptoPrice(payload.currentPrice);
+        setCryptoPriceShow(numPrecision(payload.currentPrice));
         setCryptoName(payload.name);
         setDescription(payload.description);
-        setPriceChange(payload.priceChange60d);
+        setPriceChangePercent(numPrecision(payload.priceChange60d));
         setChartData(payload.data90d);
+        setPriceChange(numPrecision(valueChange));
       } else {
         console.error("Server Error");
       }
@@ -67,10 +85,16 @@ const TradePage = (props) => {
                   className="mb-3 trade"
                 >
                   <Tab eventKey="Buy" title="Buy">
-                    <BuyPage cryptoName={cryptoName} cryptoPrice={cryptoPrice} />
+                    <BuyPage
+                      cryptoName={cryptoName}
+                      cryptoPrice={cryptoPrice}
+                    />
                   </Tab>
                   <Tab eventKey="Sell" title="Sell">
-                    <SellPage cryptoName={cryptoName} cryptoPrice={cryptoPrice} />
+                    <SellPage
+                      cryptoName={cryptoName}
+                      cryptoPrice={cryptoPrice}
+                    />
                   </Tab>
                 </Tabs>
               </Card.Body>
@@ -87,13 +111,21 @@ const TradePage = (props) => {
             <Card className={`showPricePage ${theme}`}>
               <Card.Body>
                 <h2>{cryptoName}</h2>
-                <h3 className="price">${cryptoPrice}</h3>
+                <h3 className="price">${cryptoPriceShow}</h3>
                 <p
                   style={
-                    crypto.changes > 0 ? { color: "green" } : { color: "red" }
+                    priceChangePercent > 0 ? { color: "green" } : { color: "red" }
                   }
                 >
-                  ${priceChange}
+                  {priceChangePercent > 0 ? (
+                    <div>
+                      +${priceChange} ({priceChangePercent}%)
+                    </div>
+                  ) : (
+                    <div>
+                      -${Math.abs(priceChange)} ({priceChangePercent}%)
+                    </div>
+                  )}
                 </p>
                 <LineChart chartData={chartData} coinName={cryptoName} />
               </Card.Body>
