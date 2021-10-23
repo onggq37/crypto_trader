@@ -89,7 +89,7 @@ const App = () => {
                 <PricePage isAuth={isAuth} />
               </Route>
               <Route path="/price/:symbol">
-                <PriceShowPage />
+                <PriceShowPage isAuth={isAuth} />
               </Route>
               <Route path="/academy">
                 <AcademyPage />
