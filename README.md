@@ -22,3 +22,4 @@ wallet
 
 Things to check
 istock api
+heroku push
