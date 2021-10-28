@@ -1,6 +1,6 @@
 # CryptoTrader
 
-Access the Web Application here: [CryptoTrader](www.google.com)
+Access the Web Application here: [CryptoTrader](https://mycryptotrader.herokuapp.com/
 
 A web application that allow user to buy and sell cryptocurrencies. The cryptocurrencies prices are fetch from [CoinGecko Public API](https://www.coingecko.com/en/api). Public user can visit the web to check the latest cryptocurrencies prices and read about the latest user blog on cryptocurrencie. Registered user can access their trading account and wallet or post new blogpost on cryptocurrencies news.
 
