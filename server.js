@@ -34,13 +34,8 @@ app.use("/api/prices", require("./routes/api/prices"));
 app.use("/api/wallet", require("./routes/api/wallet"));
 app.use("/api/posts", require("./routes/api/posts"));
 
-//server static asset in production
 if (process.env.NODE_ENV === "production") {
-  //set static
   app.use(express.static("client/build"));
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
 }
 
 app.listen(PORT, () => console.log(`Server on port ${PORT}`));
