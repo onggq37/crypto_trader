@@ -39,7 +39,7 @@ The key components are as follow:
 - User: {name, contactNumber, email, password, date, ownedAssetsQtyAndCostBase}
 - TransferHistory: {email, transType, amount}
 - TransactionHistory: {transId, email, coinCurrencyPair, transType, individualAmount, quantity, grossAmount}
-- RealisedPNL: {transId, email, coinCurrencyPair, infividualAmount, quantity, gorssAmount, costAmount, PnL, percentagePnL}\
+- RealisedPNL: {transId, email, coinCurrencyPair, infividualAmount, quantity, gorssAmount, costAmount, PnL, percentagePnL}
 - Post: {title, desc, photo, email, categories} - (WIP)
 
 ## Interesting Features
