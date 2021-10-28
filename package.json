@@ -4,9 +4,9 @@
   "description": "A cryto trading platform",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "start": "node server.js",
     "server": "nodemon server",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+    "build": "cd client && npm install && npm run build"
   },
   "repository": {
     "type": "git",
